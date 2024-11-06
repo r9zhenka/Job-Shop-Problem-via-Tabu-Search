@@ -1,0 +1,42 @@
+'''эта функция:
+1) создает м машин и н заданий
+2) рандомно выбирает какие элементы поменять в каких (неравных по номеру/индексу) машинах
+3) меняет их местами (по 1 элементу для двух машин)
+4) возвращает измененный словарь
+что исправить: возможно понадобится поменять 5 значений: тогда функцию придется зациклить \
+=> нужно генерировать задание машины-задания либо до вызова функции, либо в вызове функции, но никак не внутри\
+может понадобится передать какие-то уточнения к меняющимся элементам: например, какие элементы поменять. \
+Тогда рандом нужно оставить для случая дефолта, и добавить возможность указания номеров машин и заданий
+'''
+
+from creating_tasks_and_machines import creator 
+
+#m - number of machines, n - number of all tasks (should be n%m ==0), 
+#a, b are start and end values for creating random time of tasks
+#
+def generate_neighbors(m = 2, n = 20, a = 1, b = 10):# -> dict:
+  dictionary_tasks = creator(m, n, a, b)
+  length = n//m
+  # Перемещение задачи между машинами
+  print(dictionary_tasks)
+  machine_lose_task, machine_take_task = random.randint(0, m-1), random.randint(0, m-1)
+  task_to_move, task_to_loose = \
+  random.randint(0, len(dictionary_tasks[machine_lose_task]) - 1), \
+  random.randint(0, len(dictionary_tasks[machine_take_task]) - 1)
+
+  #необязательно? ведь если мы поменяем задачу из 1 на задачу из 1, то просто будет лишний цикл
+  while machine_take_task == machine_lose_task:
+    machine_take_task = random.randint(0, m)
+
+  prev_arr = list(dictionary_tasks.values())
+  task_replaced_from = prev_arr[machine_lose_task][task_to_move]    #take 2 numbers
+  task_replaced_to = prev_arr[machine_take_task][task_to_loose]
+  prev_arr[machine_lose_task][task_to_move] = task_replaced_to    #put in new values on old places
+  prev_arr[machine_take_task][task_to_loose] = task_replaced_from
+  
+  #dictionary_tasks = {idx: arrays for idx, arrays in enumerate(prev_arr)}
+  print(dictionary_tasks)
+generate_neighbors()
+
+
+
