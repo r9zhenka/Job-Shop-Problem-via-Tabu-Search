@@ -1,0 +1,13 @@
+import random
+
+#m - number of machines, n - number of all tasks (should be n%m ==0), 
+#a, b are start and end values for creating random time of tasks
+def creator(m = 2, n = 20, a = 1, b = 10) -> dict:
+  machines = [[] for x in range(m)]
+  tasks_list = {}
+
+  for i in range(2): #количество машин
+    machines[i] = [random.randint(a, b) for x in range(n//m)]
+
+  tasks_list = dict(enumerate(machines))
+  return tasks_list
