@@ -1,0 +1,1 @@
+Weight_all_tasks = sum(machines[i] for i in range(m))
