@@ -25,19 +25,23 @@ class Job:
 
 def SegmentsCollide(A, B, C, D) -> bool:
     '''
-    Endpoints are NOT included
+    Returns True if AB and CD intersect in an INTERNAL point
     '''
+
     # E = B-A = ( Bx-Ax, By-Ay )
     # F = D-C = ( Dx-Cx, Dy-Cy )
     # P = ( -Ey, Ex )
     # h = ( (A-C) * P ) / ( F * P )
+
+    # чтобы написть это нормально нужно сделать класс для 2д векторов а мне лень простите
     E = [ B[0] - A[0], B[1] - A[1] ]
     F = [ D[0] - C[0], D[1] - C[1] ]
+
     top = (A[0] - C[0]) * -E[1] + (A[1] - C[1]) * E[0]
     bot = F[0] * -E[1] + F[1] * E[0]
     if bot == 0: return False
+
     h = top / bot
-    # чтобы написть это нормально нужно сделать класс для 2д векторов а мне лень простите
     return 0 < h and h < 1
 
 
@@ -68,11 +72,6 @@ class Block:
 
     def GetVertices(self) -> list[list[int]]:
         return [self.top_left, self.top_right, self.bottom_right, self.bottom_right]
-
-
-    def Print(self) -> None:
-        print(self.bottom_left, self.top_right)
-        return
 
 
 def CalculateDistance(pointA : list[int], pointB : list[int]) -> int:
@@ -137,15 +136,3 @@ class Solver:
 
     def Solve(self) -> tuple[list[list[int]], int]:
         return self.GetShortestPathFrom([0, 0])
-
-
-if __name__ == "__main__":
-    with open("2xN/two_jobs.json", 'r') as file:
-        jobsData = json.loads(file.read())["jobs_data"]
-
-    solver = Solver(jobsData)
-    ans = solver.Solve()
-    print(ans[0])
-    print(ans[1])
-
-    # print(SegmentsCollide([3, 0], [5, 3], [3, 3], [5, 3]))
