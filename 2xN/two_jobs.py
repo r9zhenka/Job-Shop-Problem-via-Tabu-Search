@@ -8,19 +8,37 @@ class Job:
     def __init__(self, tasks : list[list[int]]) -> None:
         self.machinesMap = {}
 
-        start_time = 0
+        startTime = 0
         for task in tasks:
             machine_id = task[0]
-            processing_time = task[1]
-            self.machinesMap.update({machine_id : [start_time, start_time + processing_time]})
-            start_time += processing_time
+            processingTime = task[1]
+            self.machinesMap.update({machine_id : [startTime, startTime + processingTime]})
+            startTime += processingTime
 
-        self.duration = start_time
+        self.duration = startTime
         return
 
 
     def __getitem__(self, machine_id : int) -> list[int]:
         return self.machinesMap[machine_id]
+
+
+def SegmentsCollide(A, B, C, D) -> bool:
+    '''
+    Endpoints are NOT included
+    '''
+    # E = B-A = ( Bx-Ax, By-Ay )
+    # F = D-C = ( Dx-Cx, Dy-Cy )
+    # P = ( -Ey, Ex )
+    # h = ( (A-C) * P ) / ( F * P )
+    E = [ B[0] - A[0], B[1] - A[1] ]
+    F = [ D[0] - C[0], D[1] - C[1] ]
+    top = (A[0] - C[0]) * -E[1] + (A[1] - C[1]) * E[0]
+    bot = F[0] * -E[1] + F[1] * E[0]
+    if bot == 0: return False
+    h = top / bot
+    # чтобы написть это нормально нужно сделать класс для 2д векторов а мне лень простите
+    return 0 < h and h < 1
 
 
 class Block:
@@ -32,7 +50,19 @@ class Block:
         return
 
 
-    def Collides(self, pointA : list[int], pointB : list[int]) -> bool:
+    def CollidesWithSegment(self, pointA : list[int], pointB : list[int]) -> bool:
+        if SegmentsCollide(pointA, pointB, self.top_left, self.top_right):
+            return True
+
+        if SegmentsCollide(pointA, pointB, self.top_right, self.bottom_right):
+            return True
+
+        if SegmentsCollide(pointA, pointB, self.bottom_right, self.bottom_left):
+            return True
+
+        if SegmentsCollide(pointA, pointB, self.bottom_left, self.top_left):
+            return True
+
         return False
 
 
@@ -46,19 +76,22 @@ class Block:
 
 
 def CalculateDistance(pointA : list[int], pointB : list[int]) -> int:
-    return int(pow(pointB[0] - pointA[0], 2) + pow(pointB[1] - pointA[1], 2))
+    # return int(pow(pointB[0] - pointA[0], 2) + pow(pointB[1] - pointA[1], 2))
+    x = pointB[0] - pointA[0]
+    y = pointB[1] - pointA[1]
+    return x + y - min(x, y)
 
 
 class Solver:
     def __init__(self, jobsData) -> None:
-        self.number_of_machines = len(jobsData[0])
+        self.numberOfMachines = len(jobsData[0])
         jobA = Job(jobsData[0])
         jobB = Job(jobsData[1])
 
         self.endpoint = [jobA.duration, jobB.duration]
         self.blocks = []
-        self.vertices = [self.endpoint]
-        for i in range(self.number_of_machines):
+        self.vertices = [self.endpoint, [0, jobA.duration], [jobB.duration, 0]]
+        for i in range(self.numberOfMachines):
             block = Block(jobA[i], jobB[i])
             self.blocks.append(block)
             self.vertices.extend(block.GetVertices())
@@ -74,13 +107,19 @@ class Solver:
 
         shortestPathLen = INF
         shortestPath = []
+
         for pointB in self.vertices:
+            # @TODO: bin search here
             if pointA[0] + pointA[1] >= pointB[0] + pointB[1]:
                 continue
 
+            collision = False
             for block in self.blocks:
-                if block.Collides(pointA, pointB):
-                    continue
+                if block.CollidesWithSegment(pointA, pointB):
+                    collision = True
+                    break
+
+            if collision: continue
 
             path, len = self.GetShortestPathFrom(pointB)
             candidatePath = [pointA]
@@ -91,9 +130,9 @@ class Solver:
                 shortestPathLen = candidatePathLen
                 shortestPath = candidatePath
 
-        if shortestPathLen == INF: raise RuntimeError
+        if shortestPathLen == INF:
+            raise RuntimeError("Ill-formed JSSP")
         return shortestPath, shortestPathLen
-
 
 
     def Solve(self) -> tuple[list[list[int]], int]:
@@ -108,3 +147,5 @@ if __name__ == "__main__":
     ans = solver.Solve()
     print(ans[0])
     print(ans[1])
+
+    # print(SegmentsCollide([3, 0], [5, 3], [3, 3], [5, 3]))
