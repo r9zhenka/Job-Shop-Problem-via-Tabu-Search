@@ -19,6 +19,10 @@ class Job:
         return
 
 
+    def UsesMachine(self, machine_id : int) -> bool:
+        return machine_id in self.machinesMap.keys()
+
+
     def __getitem__(self, machine_id : int) -> list[int]:
         return self.machinesMap[machine_id]
 
@@ -91,6 +95,8 @@ class Solver:
         self.blocks = []
         self.vertices = [self.endpoint, [0, jobA.duration], [jobB.duration, 0]]
         for i in range(self.numberOfMachines):
+            if not (jobA.UsesMachine(i) and jobB.UsesMachine(i)):
+                continue
             block = Block(jobA[i], jobB[i])
             self.blocks.append(block)
             self.vertices.extend(block.GetVertices())
@@ -129,8 +135,6 @@ class Solver:
                 shortestPathLen = candidatePathLen
                 shortestPath = candidatePath
 
-        if shortestPathLen == INF:
-            raise RuntimeError("Ill-formed JSSP")
         return shortestPath, shortestPathLen
 
 

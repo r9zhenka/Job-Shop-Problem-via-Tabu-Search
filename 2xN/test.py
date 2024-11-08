@@ -14,5 +14,6 @@ if __name__ == "__main__":
             solver = Solver(jobsData)
             print(filename, "Optimal", solver.Solve()[1], "Google", GoogleSolve(jobsData))
 
-        except:
+        except Exception as ex:
+            print(filename, "Skipped due to", ex)
             continue
