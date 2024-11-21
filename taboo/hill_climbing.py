@@ -4,26 +4,25 @@ from collections import defaultdict
 from copy import deepcopy
 import json
 import random
-# from data_cl import data
+
 class hill_climbing_method(dict):
     def __init__(self):
         super().__init__()
         self.machines_number = 10
         self.tasks_number = 100
     def crs(self, d, machines_number = 10, tasks_number = 100):
-        self.clear()  #
+        self.clear()  
         for i in range(machines_number):
             machine_key = f'machine{i+1}'
             self[machine_key] = []
-            # print(self)
+            
         for i in range(tasks_number):
             machine_key = f'machine{random.choice(range(1, machines_number + 1))}'
             self[machine_key].append(d.get(f'task{i + 1}'))
-            # print(machine_key, self)
+          
         return self  #
     def create_random_solution(self, machines_number = 10, tasks_number = 100):
-        # machines_number = self.machines_number
-        # tasks_number = self.tasks_number
+        
         d = deepcopy(self)
         self.clear()  #
         for i in range(tasks_number):
@@ -47,11 +46,10 @@ class hill_climbing_method(dict):
     def makespan(self):
         return self.max_value_of_dict()[0]
 
-    def hill_climbing(self, data, max_iterations=10 ** 5, num_machines = 10): #d=create_random_solution(data)
-        # num_machines = self.machines_number
+    def hill_climbing(self, data, max_iterations=10 ** 5, num_machines = 10):
         d = self.crs(data)
         cur_solution = deepcopy(d)
-        # print(cur_solution)
+
         cur_makespan = cur_solution.makespan()
         mk_list = []
         for iteration in range(max_iterations):
@@ -76,23 +74,9 @@ class hill_climbing_method(dict):
             mk_list.append(cur_makespan)
             if iteration > 100 and len(set(mk_list[-100:])) < 2:
                 cur_solution = self.crs(data)
-                # print('в•Ёв•–в•Ёв–‘в•¤Р‘в•¤Р’в•¤Рђв•¤Рџв•Ёв•—', iteration)
-                # break
+               
 
         return cur_solution, cur_makespan, l_iter
-
-#
-# print(data)
-
-#
-
-# print(input_data.makespan())
-# input_data = hill_climbing_method()
-# dict_ = dick.create_random_solution(input_data)
-# print(dict_)
-# print(dict_.makespan())
-# print(makespan(create_random_solution(dick)))
-
 
 
 if __name__ == '__main__':
