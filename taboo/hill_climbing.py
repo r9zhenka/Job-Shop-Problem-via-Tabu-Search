@@ -66,5 +66,3 @@ if __name__ == '__main__':
     print(best_solution)
     print("Мэйкспан:", best_makespan)
     print("iter", iter)
-
-

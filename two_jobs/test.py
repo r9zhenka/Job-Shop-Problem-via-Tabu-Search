@@ -1,9 +1,10 @@
 import os
+import json
 
 from two_jobs import *
 from google_solver import *
 
-testsPath = "two_jobs/tests/"
+testsPath = "tests/"
 if __name__ == "__main__":
     for filename in os.listdir(testsPath):
         try:

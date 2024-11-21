@@ -70,6 +70,12 @@ class Block:
         if SegmentsCollide(pointA, pointB, self.bottom_left, self.top_left):
             return True
 
+        if SegmentsCollide(pointA, pointB, self.bottom_right, self.top_left):
+            return True
+
+        if SegmentsCollide(pointA, pointB, self.bottom_left, self.top_right):
+            return True
+
         return False
 
 
