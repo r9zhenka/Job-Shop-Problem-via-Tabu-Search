@@ -1,4 +1,4 @@
-import json
+import ast
 #another_try.py
 from jo_sho_try import dick
 from collections import defaultdict
@@ -57,7 +57,7 @@ def hill_climbing(max_iterations = 10**5, d = dick, num_machines = machines_numb
 
 if __name__ == '__main__':
     with open('data1.txt', 'r') as f:
-        tasks = json.load(f)  
+        tasks = ast.literal_eval(f.read())
 
     num_machines = 10
     max_iterations = 100000
