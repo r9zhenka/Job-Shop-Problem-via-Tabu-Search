@@ -5,7 +5,9 @@
 # в каждом dict Job сначала идет value = Job_weight
 # (а если создать Job как dict{weight_job: acceptable_machines}
 # и keys = list(acceptable_machines)
-# Архитектура: conveyer = dict(Task1: list_of_jobs(dict(int(Weight1): list(acceptable_machines1)), \
+# Архитектура: {weight: acceptable_machines} \in Job \in Task \in Conveyer,
+# \выходя из конвейера, распределяются по машинам
+# conveyer = dict(Task1: list_of_jobs(dict(int(Weight1): list(acceptable_machines1)), \
 # dict(int(Weight2): list(acceptable_machines2)), etc), Task2: list_of_jobs(...))
 # Конвейер преобразуется в Solution (как выглядит?)
 # class Job(dict):
@@ -18,6 +20,10 @@
 # обратиться к job[1] Task1.List_of_jobs()[0][1], first parametr of Task1.List...() is always [0]!!!
 # class Machine_types:
 #
+# где реализовать проверку на допустимость выполнения работы Х на машине У?
+from copy import deepcopy
+import random
+import json
 from copy import deepcopy
 import random
 class Job:
@@ -69,14 +75,28 @@ class Machine_types:
         self.name = name #'GPU' for example
     def get_efficiency(self):
         return self.efficiency
-    
-class Conveyer:
-    def __init__(self):
-        return
 
-class Solution:
+class Conveyer(list):
     def __init__(self):
+        # self.elements = elements
+        super().__init__()
+
         return
+    # def __str__(self):
+        # return f'{self.elements}'
+    def add_element(self, task: Task):
+        self.append(task)
+        return
+class Solution:
+    def __init__(self, conv: Conveyer):
+        return
+    def __repr__(self):
+        return
+        # return self.__str__()
+    def create_random_solution(self):
+        for x in conv:
+            new_solution = 1
+        return new_solution
 
 
 if __name__ == '__main__':
@@ -86,7 +106,10 @@ if __name__ == '__main__':
     Weight2 = 10
     Machines2 = ['machine6', 'machine7']
     Jobik2 = Job(machines=Machines2, job=Weight2)
-
     Task1 = Task({'Task1': [Jobik1, Jobik2]})
+    for_conveyer = (Task1)
+    conv = Conveyer()
+    conv.add_element(Task1)
+    # print(conv)
     print(Task1.List_of_jobs()[0][1])
     # print(Task1)
