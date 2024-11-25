@@ -21,13 +21,13 @@
 # class Machine_types:
 #
 # где реализовать проверку на допустимость выполнения работы Х на машине У?
+# пока получается, что работы из разных тасков будут перемешиваться
 from copy import deepcopy
 import random
 import json
-from copy import deepcopy
-import random
-class Job:
+class Job(dict):
     def __init__(self, machines, job):
+        super().__init__(self)
         self.machines = machines
         self.job = job
     def __str__(self):
@@ -36,6 +36,7 @@ class Job:
         return self.__str__()
 
     def acceptable_machines(self):
+        self.machines = self.machines.get_number()
         return self.machines
 
     def cur_job(self):
@@ -43,9 +44,9 @@ class Job:
 
 class Task(dict):
     def __init__(self, dictionary):
-        # super().__init__()
+        super().__init__()
         self.list_of_jobs = list(dictionary.values())
-        self.task_number = str(dictionary.keys())
+        self.task_number = str(dictionary.keys()) #conv -> more than 1 tasks work incorrect
         # for i in range(len(list(dictionary.values())[0])): #можно создать переменные инициации для каждой работы списка?
 
     def __str__(self):
@@ -66,7 +67,9 @@ class Task(dict):
         # self.task_number = x
         # return type(self.task_number)
     def List_of_jobs(self):
-
+        all_jobs = []
+        for keys, values in self.items():
+            all_jobs.append(Job(keys, values))
         return self.list_of_jobs
 
 class Machine_types:
@@ -76,6 +79,23 @@ class Machine_types:
     def get_efficiency(self):
         return self.efficiency
 
+    def is_acceptable(self, job: Job) -> bool:
+        if self.name in job.acceptable_machines():
+            return True
+        else:
+            return False
+    def get_number(self):
+        # for keys, values in self.items():
+        #     # x = keys
+        #     self.task_number = keys
+        number = ''
+        for i in str(self.name):
+            if i.isdigit():
+                number += i
+
+        return int(number)
+class CPU(Machine_types): #нужно ли делать классы для каждой машины?
+    pass
 class Conveyer(list):
     def __init__(self):
         # self.elements = elements
@@ -91,25 +111,68 @@ class Solution:
     def __init__(self, conv: Conveyer):
         return
     def __repr__(self):
-        return
+        return f'...'
         # return self.__str__()
-    def create_random_solution(self):
+    def a(self, cam):
+        list_acceptable_machines = []
+
+    def create_random_solution(self, machines_list):
+        # new_solution = [[for i in range(len(machines_list))]]
+        new_solution = [[] for _ in range(10)]
+        # check_list = lambda x:
         for x in conv:
-            new_solution = 1
+            # print(x)
+            for i in range(len(x.list_of_jobs[0])):
+                current_job = x.list_of_jobs[0][i]    # z.cur_job() - вес работы, z.acceptable_machines() - допустимые машины
+                current_weight = current_job.cur_job()
+                CAM = [current_job.acceptable_machines()]    #CAM - current acceptable machines
+                # input()
+                print(CAM)
+                # cur_machine_number = random.randint(1, 10)
+
+                cur_machine_number = random.choice(CAM)
+                new_solution[cur_machine_number].append(current_job)
+                # cur_machine_number = cur_machine_number.get_number()
+                # new_solution[cur_machine_number].append(random.choice(CAM))
+            # чтобы работы из разных тасков не сливались, здесь нужен разделитель
+        # for keys, values in z:
+                # print(str(keys), values.list_of_jobs)
+                # new_solution.append(values[0][0])
+                # print(values[0][0])
+                # print(keys, values)
+                # a=1
+
         return new_solution
 
 
 if __name__ == '__main__':
-    Machines1 = ['machine1', 'machine2', 'machine3', 'machine4', 'machine5']
+    Machines1 = ['machine1', 'machine2', 'machine3', 'machine4', 'machine5'] #создавать так машины нельзя! их нужно делать как Machines3!
     Weight1 = 8
     Jobik1 = Job(machines=Machines1, job=Weight1)
     Weight2 = 10
     Machines2 = ['machine6', 'machine7']
     Jobik2 = Job(machines=Machines2, job=Weight2)
     Task1 = Task({'Task1': [Jobik1, Jobik2]})
-    for_conveyer = (Task1)
+    Jobik3 = Job(machines=Machines2, job=Weight1)
+    Task2 = Task({'Task2': [Jobik3]})
+
+    Machines3 = Machine_types(name='machine1', efficiency=0.8)
+    Jobik33 = Job(machines=Machines3, job=Weight1)
+    Task3 = Task({'Task3': [Jobik33]})
+    # for_conveyer = (Task1)
     conv = Conveyer()
-    conv.add_element(Task1)
+    print(Machines3.get_number())
+
+    # machines_list = ['machine1', 'machine2', 'machine3', 'machine4', 'machine5',\
+    #                  'machine6', 'machine7', 'machine8', 'machine9', 'machine10']
+    machines_list = [Machines3]
+    # можно попробовать сделать лист всех
+    # машин как сет машин для всех заданных тасков
+    conv.add_element(Task3)
+    # conv.add_element(Task2)
+    sol = Solution(conv)
+    x = sol.create_random_solution(machines_list)
+    # print(x)
     # print(conv)
-    print(Task1.List_of_jobs()[0][1])
+    # print(Task1.List_of_jobs()[0][1])
     # print(Task1)
