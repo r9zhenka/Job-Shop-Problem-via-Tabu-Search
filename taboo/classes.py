@@ -41,14 +41,12 @@ class Job(dict):
         CPU = [f'machine{x}' for x in range(1, 4)]
         GPU = [f'machine{x}' for x in range(4, 7)]
         MPU = [f'machine{x}' for x in range(7, 11)]
-        # self.machines = self.machines.get_number()
         if x == 'CPU':
             return CPU
         elif x == 'GPU':
             return GPU
         elif x == 'MPU':
             return MPU
-        # return self.machines
     def generator(self):
         type_of_machines = ['CPU', 'GPU', 'MPU']
         m = random.choice(type_of_machines)
@@ -63,8 +61,6 @@ class Task(dict):
         super().__init__()
         self.list_of_jobs = list(dictionary.values())
         self.task_number = str(dictionary.keys()) #conv -> more than 1 tasks work incorrect
-        # for i in range(len(list(dictionary.values())[0])): #можно создать переменные инициации для каждой работы списка?
-
     def __str__(self):
         return f'{self.task_number, self.list_of_jobs}'
     def get_task_id(self):
@@ -78,10 +74,13 @@ class Task(dict):
 
         return int(id_)
     def generator(self, n: int, *jobs):
+        # n - number of task
         T = Task()
+        # for job in jobs:
         T = Task({f'Task{n}': job for job in jobs})
         return T
-    
+        # self.task_number = x
+        # return type(self.task_number)
     def List_of_jobs(self):
         all_jobs = []
         for keys, values in self.items():
@@ -115,7 +114,6 @@ class Machine_types:
         return self.kind
 
     def get_efficiency(self):
-        # types(self)
         return self.efficiency
     def get_number(self):
         number = ''
@@ -123,7 +121,6 @@ class Machine_types:
             if i.isdigit():
                 number += i
         return int(number)
-
 class Conveyer(dict):
     def __init__(self):
         # self.elements = elements
@@ -140,7 +137,7 @@ class Solution(dict):
     def __repr__(self):
         x = ''
         for i in range(1, 11):
-            x += str(self[f'machine{i}']) + '\n'
+            x += str(f'machine{i} has these {len(self[f'machine{i}'])} jobs: ') + str(self[f'machine{i}']) + '\n'
         return x
         # return self.__str__()
 
@@ -154,12 +151,31 @@ class Solution(dict):
             current_makespan /= m_n.get_efficiency() ###Attention! Machine_name is str, so we use duplicate = Mach_types(mach_name)
             max_makespan = max(current_makespan, max_makespan)
         return max_makespan
-    def get_neighbour(self):
-        pass
+    def get_neighbour(self, num_machine):
+        solution1 = deepcopy(self)
+        # m = random.choice(list(solution1.keys()))     # я решил передавать номер машины, \
+        # чтобы с точностью пройти по всем
+        m = num_machine
+        job = random.choice(solution1[m])
+        # new_m = random.choice(job.acceptable_machines()) # мы будем добавлять это задание ко всем \
+        # доступным машинам и возвращать решение с наименьшим мэйкспаном
+        solution1[m].remove(job)
+        best_makespan = 10**5   # self.get_makespan()
+        # best_solution =
+        for x in job.acceptable_machines():
+            #возможно, при m мы имеем наименьший мэйкспан. нужно ли исключать возможность холостого выхода?
+            # я полагаю, что нужно искл, так как а!=сосед(а)
+            # и полагая лучший_мэйкспан = 0, я также исключаю текущее решение
+            if x!=m:
+                solution1[x].append(job)
+                cur_makespan = solution1.get_makespan()
+                if cur_makespan < best_makespan:
+                    best_solution = deepcopy(solution1)
+                solution1[x].remove(job)
+
+        return best_solution
     def conv_to_solution(self, conv: Conveyer):
         new_solution = Solution()
-        n_s = [[] for _ in range(10)]
-        mch = []
         for x in conv:
             for y in x.list_of_jobs[0]:
                 m = Machine_types(random.choice(y.acceptable_machines())) #не все машины могут заполниться
@@ -167,30 +183,33 @@ class Solution(dict):
                     new_solution[m.name].append(y)
                 else:
                     new_solution[m.name] = [y]
+        # print(s)
         return new_solution
-    def create_random_solution(self, machines_list):
-        # new_solution = [[for i in range(len(machines_list))]]
-        new_solution = [[] for _ in range(10)]
-        # check_list = lambda x:
-        #
-        for x in conv:
-            # print(x)
-            for i in range(len(x.list_of_jobs[0])):
-                current_job = x.list_of_jobs[0][i]    # z.cur_job() - вес работы, z.acceptable_machines() - допустимые машины
-                current_weight = current_job.cur_job()
-                CAM = [current_job.acceptable_machines()]    #CAM - current acceptable machines
-                # input()
-                # print(CAM)
-                # cur_machine_number = random.choice
-                cur_machine_number = random.choice(CAM)
-                new_solution[cur_machine_number].append(current_job)
+    def create_random_solution(self):
+        new_solution = Solution()
+        for x in self.values():
+            # print(len(x))
+            for y in x:
+                # print(y)
+                mch = random.choice(y.acceptable_machines())
+                if mch in new_solution.keys():
+                    new_solution[mch].append(y)
+                else:
+                    new_solution[mch] = [y]
         return new_solution
-                
 
-        return new_solution
-def type_of_machines():
-    x = CPU(name='machine1')
-def generate_for_conv(num_machines = 10, num_tasks = 100):
+def hill_climbing(solution: Solution, max_iterations = 10**2):
+    solution1 = deepcopy(solution)
+    best_makespan = current_makespan = solution1.get_makespan()
+    for i in range(max_iterations):
+        for each_machine in solution1.keys():
+            new_sol = solution1.get_neighbour(each_machine)
+            if new_sol.get_makespan() < best_makespan:
+                solution1 = deepcopy(new_sol)
+                best_makespan = new_sol.get_makespan()
+                iter = i
+    return solution1, iter
+def generate_for_conv(num_machines = 10, num_tasks = 100): #non-actual
     max_weight = 10
     conv = {}
     machines_types = ['CPU', 'GPU', 'MPU']
@@ -205,6 +224,7 @@ def generate_for_conv(num_machines = 10, num_tasks = 100):
     return conv
 
 if __name__ == '__main__':
+    Weight1 = 8
     conv = Conveyer()
     n_tasks = 100
     tasks = []
@@ -218,8 +238,8 @@ if __name__ == '__main__':
         t = deepcopy(T.generator(n_task+1, x))
         # print(t)
         tasks.append(t)
-    print(type(tasks[99]))
-    print(tasks[99].list_of_jobs[0][0])#[0].acceptable_machines())
+
     s = Solution()
-    print(s.conv_to_solution(tasks).get_makespan())
-    
+    x = hill_climbing(s.conv_to_solution(tasks))
+    print(x[0].get_makespan(), x[1])
+    # tasks - list of all tasks, tasks[x] - ("d_k(['Task{x+1}'])", [[J1, J2]]), tasks[x].list_of_jobs[0][i] - Job_i in x-task
