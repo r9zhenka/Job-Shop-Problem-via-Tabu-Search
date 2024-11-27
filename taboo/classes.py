@@ -24,6 +24,7 @@
 # пока получается, что работы из разных тасков будут перемешиваться
 from copy import deepcopy
 import random
+import time
 import json
 class Job(dict):
     def __init__(self, machines = None, job = None):
@@ -41,12 +42,14 @@ class Job(dict):
         CPU = [f'machine{x}' for x in range(1, 4)]
         GPU = [f'machine{x}' for x in range(4, 7)]
         MPU = [f'machine{x}' for x in range(7, 11)]
+        # self.machines = self.machines.get_number()
         if x == 'CPU':
             return CPU
         elif x == 'GPU':
             return GPU
         elif x == 'MPU':
             return MPU
+        # return self.machines
     def generator(self):
         type_of_machines = ['CPU', 'GPU', 'MPU']
         m = random.choice(type_of_machines)
@@ -74,13 +77,9 @@ class Task(dict):
 
         return int(id_)
     def generator(self, n: int, *jobs):
-        # n - number of task
         T = Task()
-        # for job in jobs:
         T = Task({f'Task{n}': job for job in jobs})
         return T
-        # self.task_number = x
-        # return type(self.task_number)
     def List_of_jobs(self):
         all_jobs = []
         for keys, values in self.items():
@@ -114,6 +113,7 @@ class Machine_types:
         return self.kind
 
     def get_efficiency(self):
+        # types(self)
         return self.efficiency
     def get_number(self):
         number = ''
@@ -121,17 +121,14 @@ class Machine_types:
             if i.isdigit():
                 number += i
         return int(number)
+
 class Conveyer(dict):
     def __init__(self):
-        # self.elements = elements
         super().__init__()
-    # def __str__(self):
-        # return f'{self.elements}'
     def add_element(self, task: Task):
-        # self.add(task)
         return
 class Solution(dict):
-    def __init__(self):#, conv: Conveyer):
+    def __init__(self):
         self.query = {}
         return
     def __repr__(self):
@@ -139,7 +136,6 @@ class Solution(dict):
         for i in range(1, 11):
             x += str(f'machine{i} has these {len(self[f'machine{i}'])} jobs: ') + str(self[f'machine{i}']) + '\n'
         return x
-        # return self.__str__()
 
     def get_makespan(self):
         max_makespan = 0
@@ -151,9 +147,12 @@ class Solution(dict):
             current_makespan /= m_n.get_efficiency() ###Attention! Machine_name is str, so we use duplicate = Mach_types(mach_name)
             max_makespan = max(current_makespan, max_makespan)
         return max_makespan
-    def get_neighbour(self, num_machine):
+    def get_neighbour(self, num_machine = 0):
         solution1 = deepcopy(self)
-        # m = random.choice(list(solution1.keys()))     # я решил передавать номер машины, \
+        if num_machine == 0:
+            num_machine = random.choice(list(solution1.keys()))
+        # m = random.choice(list(solution1.keys()))
+        # я решил передавать номер машины, \
         # чтобы с точностью пройти по всем
         m = num_machine
         job = random.choice(solution1[m])
@@ -174,6 +173,31 @@ class Solution(dict):
                 solution1[x].remove(job)
 
         return best_solution
+    def get_list_of_neighbour(self, num_machine = 0):
+        solution1 = deepcopy(self)
+        if num_machine == 0:
+            num_machine = random.choice(list(solution1.keys()))
+
+        # m = random.choice(list(solution1.keys()))
+        # я решил передавать номер машины, \
+        # чтобы с точностью пройти по всем
+        m = num_machine
+        job = random.choice(solution1[m])
+        # new_m = random.choice(job.acceptable_machines()) # мы будем добавлять это задание ко всем \
+        # доступным машинам и возвращать решение с наименьшим мэйкспаном
+        solution1[m].remove(job)
+        list_ = []
+        best_makespan = 10**5   # self.get_makespan()
+        for x in job.acceptable_machines():
+            #возможно, при m мы имеем наименьший мэйкспан. нужно ли исключать возможность холостого выхода?
+            # я полагаю, что нужно искл, так как а!=сосед(а)
+            # и полагая лучший_мэйкспан = 0, я также исключаю текущее решение
+            if x!=m:
+                solution1[x].append(job)
+                list_.append(deepcopy(solution1))
+                solution1[x].remove(job)
+
+        return list_
     def conv_to_solution(self, conv: Conveyer):
         new_solution = Solution()
         for x in conv:
@@ -183,14 +207,11 @@ class Solution(dict):
                     new_solution[m.name].append(y)
                 else:
                     new_solution[m.name] = [y]
-        # print(s)
         return new_solution
     def create_random_solution(self):
         new_solution = Solution()
         for x in self.values():
-            # print(len(x))
             for y in x:
-                # print(y)
                 mch = random.choice(y.acceptable_machines())
                 if mch in new_solution.keys():
                     new_solution[mch].append(y)
@@ -198,9 +219,23 @@ class Solution(dict):
                     new_solution[mch] = [y]
         return new_solution
 
-def hill_climbing(solution: Solution, max_iterations = 10**2):
+
+def timeit(func):
+    """
+    Decorator for measuring function's running time.
+    """
+    def measure_time(*args, **kw):
+        start_time = time.time()
+        result = func(*args, **kw)
+        print("Processing time of %s(): %.2f seconds."
+              % (func.__qualname__, time.time() - start_time))
+        return result
+    return measure_time
+@timeit
+def hill_climbing(solution: Solution, max_iterations = 10**3):
     solution1 = deepcopy(solution)
     best_makespan = current_makespan = solution1.get_makespan()
+    iter = 'No changes'
     for i in range(max_iterations):
         for each_machine in solution1.keys():
             new_sol = solution1.get_neighbour(each_machine)
@@ -209,23 +244,41 @@ def hill_climbing(solution: Solution, max_iterations = 10**2):
                 best_makespan = new_sol.get_makespan()
                 iter = i
     return solution1, iter
-def generate_for_conv(num_machines = 10, num_tasks = 100): #non-actual
-    max_weight = 10
-    conv = {}
-    machines_types = ['CPU', 'GPU', 'MPU']
-    for i in range(1, num_tasks+1):
-        jobs_in_task = random.randint(1, 3)
-        j = []
-        for _ in range(jobs_in_task):
-            weight = random.randint(1, max_weight)
-            m_type = random.choice(machines_types)
-            j.append(Job(job=weight, machines=m_type))
-        conv[f'Task{i}'] = j.copy()
-    return conv
+@timeit
+def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution()):
+    currentSolution = initialSolution
+    bestSolution = currentSolution
+
+    tabuSet =[] #set()
+
+    for _ in range(iterations):
+        neighbors = currentSolution.get_list_of_neighbour()
+        bestNeighbor = None
+        bestNeighborMakespan = float('inf')
+
+        for neighbor in neighbors:
+            if neighbor not in tabuSet:
+                neighborMakespan = neighbor.get_makespan()
+                if neighborMakespan < bestNeighborMakespan:
+                    bestNeighbor = neighbor
+                    bestNeighborMakespan = neighborMakespan
+
+        if bestNeighbor is None:
+            # print("No non-tabu neighbors found, terminate the search")
+            break
+
+        currentSolution = bestNeighbor
+        tabuSet.append(bestNeighbor)
+
+        if len(tabuSet) > tabuSetSize:
+            tabuSet.pop()
+
+        if bestNeighbor.get_makespan() < bestSolution.get_makespan():
+            bestSolution = bestNeighbor
+
+    return bestSolution
 
 if __name__ == '__main__':
-    Weight1 = 8
-    conv = Conveyer()
     n_tasks = 100
     tasks = []
     for n_task in range(n_tasks):
@@ -236,10 +289,11 @@ if __name__ == '__main__':
         for i in range(n_jobs):
             x.append(j.generator())
         t = deepcopy(T.generator(n_task+1, x))
-        # print(t)
         tasks.append(t)
-
     s = Solution()
-    x = hill_climbing(s.conv_to_solution(tasks))
-    print(x[0].get_makespan(), x[1])
-    # tasks - list of all tasks, tasks[x] - ("d_k(['Task{x+1}'])", [[J1, J2]]), tasks[x].list_of_jobs[0][i] - Job_i in x-task
+    mx = 100
+    x = s.conv_to_solution(tasks)
+    hc = hill_climbing(x, max_iterations = mx)
+    ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
+    print(hc[0].get_makespan(), hc[1])
+    print(ts.get_makespan())
