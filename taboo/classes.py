@@ -400,7 +400,7 @@ def input_data(file_name = 'data_for_cl.json'):
 
     return output
     
-from gen import n_test_files
+from generate_data import n_test_files
 
 if __name__ == '__main__':
     # print(input_data('data_for_cl.json'))
