@@ -14,5 +14,5 @@ for i in range(1, num_tasks+1):
         else:
             task[f'Task{i}'] = [job]
     whole_input.append(task)
-
-json.dump(whole_input, open('data_for_cl.json', 'w'))
+with open('data_for_cl.json', 'w') as file:
+    json.dump(whole_input, file, indent=4)
