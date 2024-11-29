@@ -92,7 +92,8 @@ def CalculateDistance(pointA : list[int], pointB : list[int]) -> int:
 
 class Solver:
     def __init__(self, jobsData) -> None:
-        self.numberOfMachines = len(jobsData[0])
+        # @TODO: mb fix this
+        self.numberOfMachines = max(max(job[0] for job in jobsData[0]), max(job[0] for job in jobsData[1])) + 1
         jobA = Job(jobsData[0])
         jobB = Job(jobsData[1])
 
