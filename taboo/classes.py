@@ -401,8 +401,6 @@ def input_data(file_name = 'data_for_cl.json'):
 if __name__ == '__main__':
     # print(input_data('data_for_cl.json'))
     x = input_data('data_for_cl.json')
-    n_tasks = 100
-    tasks = []
     mx = 1000
     hc = hill_climbing(x, iterations = mx)
     print(hc.get_makespan())

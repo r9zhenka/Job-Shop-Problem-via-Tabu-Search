@@ -1,6 +1,5 @@
-from collections import defaultdict
 import json
-from typing_extensions import DefaultDict
+from collections import defaultdict
 
 INF = 9999999
 
@@ -137,11 +136,11 @@ class Solver:
 
 
     def GetShortestPathFrom(self, pointA : list[int]) -> tuple[list[list[int]], int]:
-        if tuple(pointA) in self.cache:
-            return self.cache[tuple(pointA)]
-
         if pointA == self.endpoint:
             return [self.endpoint], 0
+
+        if tuple(pointA) in self.cache:
+            return self.cache[tuple(pointA)]
 
         shortestPathLen = INF
         shortestPath = []

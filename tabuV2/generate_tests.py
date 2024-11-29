@@ -3,8 +3,9 @@ import random
 
 
 TEST_COUNT = 2
-MACHINES = 1000
+MACHINES = 10
 MAX_TIME = 100
+JOBS = 10
 
 
 def GenerateJob() -> str:
@@ -24,9 +25,11 @@ def GenerateJob() -> str:
 
 def GenerateTest() -> str:
     test = "{\"jobs_data\": ["
-    test += GenerateJob()
-    test += ","
-    test += GenerateJob()
+
+    for i in range(JOBS):
+        test += GenerateJob()
+        if i != JOBS - 1:
+            test += ","
 
     test += "]}"
     return test
