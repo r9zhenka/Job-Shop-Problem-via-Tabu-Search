@@ -277,18 +277,44 @@ def timeit(func):
 
 
 @timeit
-def hill_climbing(solution: Solution, max_iterations = 10**3):
-    solution1 = deepcopy(solution)
-    best_makespan = current_makespan = solution1.get_makespan()
-    iter = 'No changes'
-    for i in range(max_iterations):
-        for each_machine in solution1.keys():
-            new_sol = solution1.get_neighbour(each_machine)
-            if new_sol.get_makespan() < best_makespan:
-                solution1 = deepcopy(new_sol)
-                best_makespan = new_sol.get_makespan()
-                iter = i
-    return solution1, iter
+def hill_climbing(solution = Solution(), iterations = 10**3):
+    # solution1 = deepcopy(solution)
+    # best_makespan = current_makespan = solution1.get_makespan()
+    # iter = 'No changes'
+    # for i in range(max_iterations):
+    #     for each_machine in solution1.keys():
+    #         new_sol = solution1.get_neighbour(each_machine)
+    #         if new_sol.get_makespan() < best_makespan:
+    #             solution1 = deepcopy(new_sol)
+    #             best_makespan = new_sol.get_makespan()
+    #             iter = i
+    # return solution1, iter
+    currentSolution = deepcopy(solution)
+    bestSolution = deepcopy(currentSolution)
+
+    # tabuSet = []  # set()
+
+    for _ in range(iterations):
+        neighbors = currentSolution.get_list_of_neighbour()
+        bestNeighbor = None
+        bestNeighborMakespan = float('inf')
+
+        for neighbor in neighbors:
+
+            neighborMakespan = neighbor.get_makespan()
+            if neighborMakespan < bestNeighborMakespan:
+                bestNeighbor = neighbor
+                bestNeighborMakespan = neighborMakespan
+
+        if bestNeighbor is None:
+            break
+
+        currentSolution = bestNeighbor
+
+        if bestNeighbor.get_makespan() < bestSolution.get_makespan():
+            bestSolution = bestNeighbor
+
+    return bestSolution
 
 
 @timeit
@@ -342,8 +368,8 @@ if __name__ == '__main__':
     mx = 1000
     x = s.conv_to_solution(tasks)
 
-    # hc = hill_climbing(x, max_iterations = mx)
-    # print(hc[0].get_makespan(), hc[1])
+    hc = hill_climbing(x, max_iterations = mx)
+    print(hc.get_makespan())
 
     ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
     print(ts.get_makespan())
