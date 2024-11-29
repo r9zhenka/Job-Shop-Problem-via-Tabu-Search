@@ -1,7 +1,7 @@
 import random
 import json
 
-num_tasks = 10
+num_tasks = 100
 types_machines = ['CPU', 'GPU', 'MPU']
 whole_input = []
 for i in range(1, num_tasks+1):
