@@ -184,7 +184,7 @@ class Solution(dict):
         if num_machine == 0:
             num_machine = random.choice(list(solution1.keys()))
         # m = random.choice(list(solution1.keys()))
-        # я решил передавать номер машины, \
+        # я решил передавать номер машины,
         # чтобы с точностью пройти по всем
         m = num_machine
         job = random.choice(solution1[m])
@@ -207,30 +207,33 @@ class Solution(dict):
         return best_solution
 
 
-    def get_list_of_neighbour(self, num_machine = 0):
+    def get_list_of_neighbour(self):
         list_ = []
 
-        solution1 = deepcopy(self)
-        if num_machine == 0:
-            num_machine = random.choice(list(solution1.keys()))
+        for num_machine in range(len(self.keys())):
+            solution1 = deepcopy(self)
+            if num_machine not in solution1:
+                continue
+            # if num_machine == 0:
+            #     num_machine = random.choice(list(solution1.keys()))
 
-        # m = random.choice(list(solution1.keys()))
-        # я решил передавать номер машины, \
-        # чтобы с точностью пройти по всем
-        m = num_machine
-        job = random.choice(solution1[m])
-        # new_m = random.choice(job.acceptable_machines()) # мы будем добавлять это задание ко всем \
-        # доступным машинам и возвращать решение с наименьшим мэйкспаном
-        solution1[m].remove(job)
-        best_makespan = 10**5   # self.get_makespan()
-        for x in job.acceptable_machines():
-            #возможно, при m мы имеем наименьший мэйкспан. нужно ли исключать возможность холостого выхода?
-            # я полагаю, что нужно искл, так как а!=сосед(а)
-            # и полагая лучший_мэйкспан = 0, я также исключаю текущее решение
-            if x!=m:
-                solution1[x].append(job)
-                list_.append(deepcopy(solution1))
-                solution1[x].remove(job)
+            # m = random.choice(list(solution1.keys()))
+            # я решил передавать номер машины, \
+            # чтобы с точностью пройти по всем
+            m = num_machine
+            job = random.choice(solution1[m])
+            # new_m = random.choice(job.acceptable_machines()) # мы будем добавлять это задание ко всем \
+            # доступным машинам и возвращать решение с наименьшим мэйкспаном
+            solution1[m].remove(job)
+            best_makespan = 10**5   # self.get_makespan()
+            for x in job.acceptable_machines():
+                #возможно, при m мы имеем наименьший мэйкспан. нужно ли исключать возможность холостого выхода?
+                # я полагаю, что нужно искл, так как а!=сосед(а)
+                # и полагая лучший_мэйкспан = 0, я также исключаю текущее решение
+                if x!=m:
+                    solution1[x].append(job)
+                    list_.append(deepcopy(solution1))
+                    solution1[x].remove(job)
 
         return list_
 
