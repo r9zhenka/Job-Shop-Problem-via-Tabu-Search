@@ -398,11 +398,18 @@ def input_data(file_name = 'data_for_cl.json'):
     print(output.get_makespan())
     return output
 
+    return output
+    
+from gen import n_test_files
+
 if __name__ == '__main__':
     # print(input_data('data_for_cl.json'))
-    x = input_data('data_for_cl.json')
-    mx = 1000
-    hc = hill_climbing(x, iterations = mx)
-    print(hc.get_makespan())
-    ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
-    print(ts.get_makespan())
+
+    for i in range(1, n_test_files+1):
+        print(f'\nfile{i}')
+        x = input_data(f'tests/data_for_cl{i}.json')
+        mx = 100
+        hc = hill_climbing(x, iterations = mx)
+        print(hc.get_makespan())
+        ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
+        print(ts.get_makespan())
