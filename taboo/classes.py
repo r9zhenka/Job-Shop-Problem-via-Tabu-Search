@@ -224,9 +224,10 @@ class Solution(dict):
     def get_list_of_neighbour(self):
         list_ = []
 
-        for num_machine in range(len(self.keys())):
+        for num_machine in self.keys():
+            # частое копирование приводит к увеличению времени выполнения в 50 раз на 1000 итераций!
             solution1 = deepcopy(self)
-            if num_machine not in solution1:
+            if len(self[num_machine]) == 0:
                 continue
             # if num_machine == 0:
             #     num_machine = random.choice(list(solution1.keys()))
@@ -307,18 +308,44 @@ def timeit(func):
 
 
 @timeit
-def hill_climbing(solution: Solution, max_iterations = 10**3):
-    solution1 = deepcopy(solution)
-    best_makespan = current_makespan = solution1.get_makespan()
-    iter = 'No changes'
-    for i in range(max_iterations):
-        for each_machine in solution1.keys():
-            new_sol = solution1.get_neighbour(each_machine)
-            if new_sol.get_makespan() < best_makespan:
-                solution1 = deepcopy(new_sol)
-                best_makespan = new_sol.get_makespan()
-                iter = i
-    return solution1, iter
+def hill_climbing(solution = Solution(), iterations = 10**3):
+    # solution1 = deepcopy(solution)
+    # best_makespan = current_makespan = solution1.get_makespan()
+    # iter = 'No changes'
+    # for i in range(max_iterations):
+    #     for each_machine in solution1.keys():
+    #         new_sol = solution1.get_neighbour(each_machine)
+    #         if new_sol.get_makespan() < best_makespan:
+    #             solution1 = deepcopy(new_sol)
+    #             best_makespan = new_sol.get_makespan()
+    #             iter = i
+    # return solution1, iter
+    currentSolution = deepcopy(solution)
+    bestSolution = deepcopy(currentSolution)
+
+    # tabuSet = []  # set()
+
+    for _ in range(iterations):
+        neighbors = currentSolution.get_list_of_neighbour()
+        bestNeighbor = None
+        bestNeighborMakespan = float('inf')
+
+        for neighbor in neighbors:
+
+            neighborMakespan = neighbor.get_makespan()
+            if neighborMakespan < bestNeighborMakespan:
+                bestNeighbor = neighbor
+                bestNeighborMakespan = neighborMakespan
+
+        if bestNeighbor is None:
+            break
+
+        currentSolution = bestNeighbor
+
+        if bestNeighbor.get_makespan() < bestSolution.get_makespan():
+            bestSolution = bestNeighbor
+
+    return bestSolution
 
 
 @timeit
@@ -357,6 +384,28 @@ def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     s = Solution().from_json("tests/0.json")
     ts = Tabu_Search(initialSolution = s, tabuSetSize = 10, iterations = 100)
+=======
+    n_tasks = 100
+    tasks = []
+    for n_task in range(n_tasks):
+        T = Task()
+        n_jobs = random.randint(1, 3)
+        j = Job()
+        x = []
+        for i in range(n_jobs):
+            x.append(j.generator())
+        t = deepcopy(T.generator(n_task+1, x))
+        tasks.append(t)
+    s = Solution()
+    mx = 1000
+    x = s.conv_to_solution(tasks)
+
+    hc = hill_climbing(x, max_iterations = mx)
+    print(hc.get_makespan())
+
+    ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
+>>>>>>> a307715d21185a8772621d4331d2bb08c79b2ba9
     print(ts.get_makespan())
