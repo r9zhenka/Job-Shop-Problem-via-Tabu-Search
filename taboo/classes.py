@@ -25,20 +25,21 @@
 
 
 from copy import deepcopy
+from json.decoder import JSONDecoder
 import random
 import time
 import json
 
 
 class Job(dict):
-    def __init__(self, machines = None, job = None):
+    def __init__(self, machines, weight):
         super().__init__(self)
         self.machines = machines
-        self.job = job
+        self.weight = weight
 
 
     def __str__(self):
-        return f'{self.job, self.machines}'
+        return f'{self.weight, self.machines}'
 
 
     def __repr__(self):
@@ -64,12 +65,8 @@ class Job(dict):
         type_of_machines = ['CPU', 'GPU', 'MPU']
         m = random.choice(type_of_machines)
         w = random.randint(1, 10)
-        a = Job(machines=m, job = w)
+        a = Job(m, w)
         return a
-
-
-    def cur_job(self):
-        return self.job
 
 
 class Task(dict):
@@ -77,8 +74,12 @@ class Task(dict):
         super().__init__()
         self.list_of_jobs = list(dictionary.values())
         self.task_number = str(dictionary.keys()) #conv -> more than 1 tasks work incorrect
+
+
     def __str__(self):
         return f'{self.task_number, self.list_of_jobs}'
+
+
     def get_task_id(self):
         for keys, values in self.items():
             # x = keys
@@ -146,6 +147,7 @@ class Machine_types:
                 number += i
         return int(number)
 
+
 class Conveyer(dict):
     def __init__(self):
         super().__init__()
@@ -155,6 +157,17 @@ class Conveyer(dict):
         return
 
 
+    @staticmethod
+    def conv_to_solution(conv) -> 'Solution':
+        new_solution = Solution()
+        for x in conv:
+            for y in x.list_of_jobs[0]:
+                m = Machine_types(random.choice(y.acceptable_machines())) #не все машины могут заполниться
+                if m.name in new_solution.keys():
+                    new_solution[m.name].append(y)
+                else:
+                    new_solution[m.name] = [y]
+        return new_solution
 class Solution(dict):
     def __init__(self):
         self.query = {}
@@ -167,13 +180,14 @@ class Solution(dict):
             x += str(f'machine{i} has these {len(self[f'machine{i}'])} jobs: ') + str(self[f'machine{i}']) + '\n'
         return x
 
+
     def get_makespan(self):
         max_makespan = 0
         for machine_name in self.keys():
             current_makespan = 0
             m_n = Machine_types(machine_name)
             for job in self[machine_name]:
-                current_makespan += job.job
+                current_makespan += job.weight
             current_makespan /= m_n.get_efficiency() ###Attention! Machine_name is str, so we use duplicate = Mach_types(mach_name)
             max_makespan = max(current_makespan, max_makespan)
         return max_makespan
@@ -238,7 +252,8 @@ class Solution(dict):
         return list_
 
 
-    def conv_to_solution(self, conv: Conveyer):
+    @classmethod
+    def conv_to_solution(cls, conv) -> 'Solution':
         new_solution = Solution()
         for x in conv:
             for y in x.list_of_jobs[0]:
@@ -260,6 +275,22 @@ class Solution(dict):
                 else:
                     new_solution[mch] = [y]
         return new_solution
+
+
+    @classmethod
+    def from_json(cls, filename : str) -> 'Solution':
+        file = open(filename, 'r')
+        data = json.loads(file.read())
+        file.close()
+
+        tasks = []
+        for n_task in data["jobs_data"]:
+            tasks.append(Task(n_task))
+
+
+        # ~create initial_solution - рандомно распределяем по всем машинам~
+        return cls.conv_to_solution(tasks)
+
 
 
 def timeit(func):
@@ -310,7 +341,7 @@ def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution
                     bestNeighborMakespan = neighborMakespan
 
         if bestNeighbor is None:
-            # print("No non-tabu neighbors found, terminate the search")
+            print("No non-tabu neighbors found, terminate the search")
             break
 
         currentSolution = bestNeighbor
@@ -326,23 +357,6 @@ def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution
 
 
 if __name__ == '__main__':
-    n_tasks = 100
-    tasks = []
-    for n_task in range(n_tasks):
-        T = Task()
-        n_jobs = random.randint(1, 3)
-        j = Job()
-        x = []
-        for i in range(n_jobs):
-            x.append(j.generator())
-        t = deepcopy(T.generator(n_task+1, x))
-        tasks.append(t)
-    s = Solution()
-    mx = 1000
-    x = s.conv_to_solution(tasks)
-
-    # hc = hill_climbing(x, max_iterations = mx)
-    # print(hc[0].get_makespan(), hc[1])
-
-    ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
+    s = Solution().from_json("tests/0.json")
+    ts = Tabu_Search(initialSolution = s, tabuSetSize = 10, iterations = 100)
     print(ts.get_makespan())
