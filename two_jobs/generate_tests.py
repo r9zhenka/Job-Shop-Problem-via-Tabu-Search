@@ -3,7 +3,7 @@ import random
 
 
 TEST_COUNT = 2
-MACHINES = 30
+MACHINES = 200
 MAX_TIME = 100
 
 def GenerateJob() -> str:

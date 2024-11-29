@@ -1,4 +1,6 @@
+from collections import defaultdict
 import json
+from typing_extensions import DefaultDict
 
 INF = 9999999
 
@@ -90,6 +92,26 @@ def CalculateDistance(pointA : list[int], pointB : list[int]) -> int:
     return x + y - min(x, y)
 
 
+def ComparePoints(pointA, pointB) -> bool:
+    return pointA[0] + pointA[1] < pointB[0] + pointB[1]
+
+
+def BisectVertexList(vertices, point) -> int:
+    low = 0
+    high = len(vertices) - 1
+    mid = 0
+
+    while low <= high:
+        mid = (high + low) // 2
+
+        if ComparePoints(vertices[mid], point):
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return mid
+
+
 class Solver:
     def __init__(self, jobsData) -> None:
         # @TODO: mb fix this
@@ -109,20 +131,26 @@ class Solver:
 
         # сортировка по диагоналям
         self.vertices.sort(key = lambda vertex: vertex[0] + vertex[1])
+
+        self.cache = defaultdict()
         return
 
 
     def GetShortestPathFrom(self, pointA : list[int]) -> tuple[list[list[int]], int]:
+        if tuple(pointA) in self.cache:
+            return self.cache[tuple(pointA)]
+
         if pointA == self.endpoint:
             return [self.endpoint], 0
 
         shortestPathLen = INF
         shortestPath = []
 
-        for pointB in self.vertices:
-            # @TODO: bin search here
-            if pointA[0] + pointA[1] >= pointB[0] + pointB[1]:
-                continue
+        # start = bisect_left(self.vertices, pointA, key = lambda vertex: vertex[0] + vertex[1])
+        start = BisectVertexList(self.vertices, pointA)
+
+        for pointB in self.vertices[start:]:
+            if not ComparePoints(pointA, pointB): continue
 
             collision = False
             for block in self.blocks:
@@ -141,6 +169,7 @@ class Solver:
                 shortestPathLen = candidatePathLen
                 shortestPath = candidatePath
 
+        self.cache.update({tuple(pointA) : (shortestPath, shortestPathLen)})
         return shortestPath, shortestPathLen
 
 

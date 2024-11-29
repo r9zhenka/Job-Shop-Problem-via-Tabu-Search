@@ -6,7 +6,10 @@ from google_solver import *
 
 testsPath = "tests/"
 if __name__ == "__main__":
-    for filename in os.listdir(testsPath):
+    fileCount = len(os.listdir(testsPath))
+    for i in range(fileCount):
+        filename = str(i) + ".json"
+
         try:
             file = open(testsPath + filename, 'r')
             jobsData = json.loads(file.read())["jobs_data"]
