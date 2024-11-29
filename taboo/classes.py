@@ -382,30 +382,29 @@ def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution
 
     return bestSolution
 
+def input_data(file_name = 'data_for_cl.json'):
+    with open(file_name, 'r') as f:
+        x = json.load(f)
+        inp = []
+        for task in x:
+            for key, values in task.items():
+                j = []
+                for value in values:
+                    j.append(Job(value[0], weight=value[1]))
+                t = Task({key: deepcopy(j)})
+                inp.append(t)
+    s = Solution()
+    output = s.conv_to_solution(inp)
+    print(output.get_makespan())
+    return output
 
 if __name__ == '__main__':
-<<<<<<< HEAD
-    s = Solution().from_json("tests/0.json")
-    ts = Tabu_Search(initialSolution = s, tabuSetSize = 10, iterations = 100)
-=======
+    # print(input_data('data_for_cl.json'))
+    x = input_data('data_for_cl.json')
     n_tasks = 100
     tasks = []
-    for n_task in range(n_tasks):
-        T = Task()
-        n_jobs = random.randint(1, 3)
-        j = Job()
-        x = []
-        for i in range(n_jobs):
-            x.append(j.generator())
-        t = deepcopy(T.generator(n_task+1, x))
-        tasks.append(t)
-    s = Solution()
     mx = 1000
-    x = s.conv_to_solution(tasks)
-
-    hc = hill_climbing(x, max_iterations = mx)
+    hc = hill_climbing(x, iterations = mx)
     print(hc.get_makespan())
-
     ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
->>>>>>> a307715d21185a8772621d4331d2bb08c79b2ba9
     print(ts.get_makespan())
