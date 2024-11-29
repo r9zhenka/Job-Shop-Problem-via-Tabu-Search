@@ -210,9 +210,10 @@ class Solution(dict):
     def get_list_of_neighbour(self):
         list_ = []
 
-        for num_machine in range(len(self.keys())):
+        for num_machine in self.keys():
+            # частое копирование приводит к увеличению времени выполнения в 50 раз на 1000 итераций!
             solution1 = deepcopy(self)
-            if num_machine not in solution1:
+            if len(self[num_machine]) == 0:
                 continue
             # if num_machine == 0:
             #     num_machine = random.choice(list(solution1.keys()))
