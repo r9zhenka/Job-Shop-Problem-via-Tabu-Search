@@ -1,4 +1,5 @@
 import random
+import json
 from queue import Queue
 # https://www.geeksforgeeks.org/what-is-tabu-search/
 
@@ -29,12 +30,15 @@ class Job:
         for type, power in tasksList:
             self.tasks.append(Task(id, type, power))
 
+        return
+
 
 class Machine:
     def __init__(self, type : int, power : float) -> None:
         self.jobQueue = []
         self.power = power
         self.type = type
+        return
 
 
 class Solution:
@@ -44,17 +48,24 @@ class Solution:
         machinesData = jsonData["machines_data"]
 
         self.machines = []
+        self.makespan = None
         return
 
+
     def GetMakespan(self) -> int:
-        return 0
+        if self.makespan is not None: return self.makespan
+        makespan = int('inf')
+
+        self.makespan = makespan
+        return makespan
+
 
     def GetNeighbors(self) -> list: #[Solution]:
         neighbors = []
         return neighbors
 
 
-def TabuSearch(iterations, tabuSetSize = 100000, initialSolution = Solution()):
+def TabuSearch(initialSolution, iterations, tabuSetSize = 1000):
     currentSolution = initialSolution
     bestSolution = currentSolution
 
@@ -89,4 +100,8 @@ def TabuSearch(iterations, tabuSetSize = 100000, initialSolution = Solution()):
 
 
 if __name__ == "__main__":
+    file = open("data.json", 'r')
+    jobsData = json.loads(file.read())
+    file.close()
+
     bestSolution = TabuSearch(10)

@@ -22,20 +22,28 @@
 #
 # где реализовать проверку на допустимость выполнения работы Х на машине У?
 # пока получается, что работы из разных тасков будут перемешиваться
+
+
 from copy import deepcopy
 import random
 import time
 import json
+
+
 class Job(dict):
     def __init__(self, machines = None, job = None):
         super().__init__(self)
         self.machines = machines
         self.job = job
 
+
     def __str__(self):
         return f'{self.job, self.machines}'
+
+
     def __repr__(self):
         return self.__str__()
+
 
     def acceptable_machines(self):
         x = str(self.machines)
@@ -50,14 +58,19 @@ class Job(dict):
         elif x == 'MPU':
             return MPU
         # return self.machines
+
+
     def generator(self):
         type_of_machines = ['CPU', 'GPU', 'MPU']
         m = random.choice(type_of_machines)
         w = random.randint(1, 10)
         a = Job(machines=m, job = w)
         return a
+
+
     def cur_job(self):
         return self.job
+
 
 class Task(dict):
     def __init__(self, dictionary = {}):
@@ -76,15 +89,20 @@ class Task(dict):
                 id_+=i
 
         return int(id_)
+
+
     def generator(self, n: int, *jobs):
         T = Task()
         T = Task({f'Task{n}': job for job in jobs})
         return T
+
+
     def List_of_jobs(self):
         all_jobs = []
         for keys, values in self.items():
             all_jobs.append(Job(keys, values))
         return self.list_of_jobs
+
 
 class Machine_types:
     def __init__(self, name = None, efficiency = 1):
@@ -93,11 +111,14 @@ class Machine_types:
         self.name = name #'GPU' for example
         self.kind = None
 
+
     def is_acceptable(self, job: Job) -> bool:
         if self.name in job.acceptable_machines():
             return True
         else:
             return False
+
+
     def types(self):
         CPU = [Machine_types(f'machine{x}', x) for x in range(1, 4)]
         GPU = [Machine_types(f'machine{x}', x - 3) for x in range(4, 7)]
@@ -112,9 +133,12 @@ class Machine_types:
             raise ValueError
         return self.kind
 
+
     def get_efficiency(self):
         # types(self)
         return self.efficiency
+
+
     def get_number(self):
         number = ''
         for i in str(self.name):
@@ -125,12 +149,18 @@ class Machine_types:
 class Conveyer(dict):
     def __init__(self):
         super().__init__()
+
+
     def add_element(self, task: Task):
         return
+
+
 class Solution(dict):
     def __init__(self):
         self.query = {}
         return
+
+
     def __repr__(self):
         x = ''
         for i in range(1, 11):
@@ -147,6 +177,8 @@ class Solution(dict):
             current_makespan /= m_n.get_efficiency() ###Attention! Machine_name is str, so we use duplicate = Mach_types(mach_name)
             max_makespan = max(current_makespan, max_makespan)
         return max_makespan
+
+
     def get_neighbour(self, num_machine = 0):
         solution1 = deepcopy(self)
         if num_machine == 0:
@@ -173,7 +205,11 @@ class Solution(dict):
                 solution1[x].remove(job)
 
         return best_solution
+
+
     def get_list_of_neighbour(self, num_machine = 0):
+        list_ = []
+
         solution1 = deepcopy(self)
         if num_machine == 0:
             num_machine = random.choice(list(solution1.keys()))
@@ -186,7 +222,6 @@ class Solution(dict):
         # new_m = random.choice(job.acceptable_machines()) # мы будем добавлять это задание ко всем \
         # доступным машинам и возвращать решение с наименьшим мэйкспаном
         solution1[m].remove(job)
-        list_ = []
         best_makespan = 10**5   # self.get_makespan()
         for x in job.acceptable_machines():
             #возможно, при m мы имеем наименьший мэйкспан. нужно ли исключать возможность холостого выхода?
@@ -198,6 +233,8 @@ class Solution(dict):
                 solution1[x].remove(job)
 
         return list_
+
+
     def conv_to_solution(self, conv: Conveyer):
         new_solution = Solution()
         for x in conv:
@@ -208,6 +245,8 @@ class Solution(dict):
                 else:
                     new_solution[m.name] = [y]
         return new_solution
+
+
     def create_random_solution(self):
         new_solution = Solution()
         for x in self.values():
@@ -231,6 +270,8 @@ def timeit(func):
               % (func.__qualname__, time.time() - start_time))
         return result
     return measure_time
+
+
 @timeit
 def hill_climbing(solution: Solution, max_iterations = 10**3):
     solution1 = deepcopy(solution)
@@ -244,6 +285,8 @@ def hill_climbing(solution: Solution, max_iterations = 10**3):
                 best_makespan = new_sol.get_makespan()
                 iter = i
     return solution1, iter
+
+
 @timeit
 def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution()):
     currentSolution = initialSolution
@@ -278,6 +321,7 @@ def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution
 
     return bestSolution
 
+
 if __name__ == '__main__':
     n_tasks = 100
     tasks = []
@@ -291,9 +335,11 @@ if __name__ == '__main__':
         t = deepcopy(T.generator(n_task+1, x))
         tasks.append(t)
     s = Solution()
-    mx = 100
+    mx = 1000
     x = s.conv_to_solution(tasks)
-    hc = hill_climbing(x, max_iterations = mx)
+
+    # hc = hill_climbing(x, max_iterations = mx)
+    # print(hc[0].get_makespan(), hc[1])
+
     ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
-    print(hc[0].get_makespan(), hc[1])
     print(ts.get_makespan())
