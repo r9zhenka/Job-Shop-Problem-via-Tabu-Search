@@ -397,8 +397,6 @@ def input_data(file_name = 'data_for_cl.json'):
     output = s.conv_to_solution(inp)
     print(output.get_makespan())
     return output
-
-    return output
     
 from generate_data import n_test_files
 
