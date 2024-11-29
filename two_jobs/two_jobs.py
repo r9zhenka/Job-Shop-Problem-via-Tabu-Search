@@ -1,6 +1,6 @@
 import json
 
-INF = 999999
+INF = 9999999
 
 
 class Job:
