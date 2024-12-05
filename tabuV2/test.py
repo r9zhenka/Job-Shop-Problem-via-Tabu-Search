@@ -1,7 +1,6 @@
 import os
 import json
 
-from two_jobs import *
 from google_solver import *
 
 testsPath = "tests/"
@@ -15,8 +14,8 @@ if __name__ == "__main__":
             jobsData = json.loads(file.read())["jobs_data"]
             file.close()
 
-            solver = Solver(jobsData)
-            print(filename, "Optimal", solver.Solve()[1], "Google", GoogleSolve(jobsData))
+            # solver = Solver(jobsData)
+            print(filename, "Optimal", " ", "Google", GoogleSolve(jobsData))
 
         except Exception as ex:
             print(filename, "Skipped due to", ex)

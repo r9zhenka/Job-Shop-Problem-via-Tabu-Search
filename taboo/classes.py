@@ -1,35 +1,9 @@
-# постановка задачи:
-# нужно решить Job Shop Problem
-# на вход подается словарь заданий
-# каждое задание состоит из dict,
-# в каждом dict Job сначала идет value = Job_weight
-# (а если создать Job как dict{weight_job: acceptable_machines}
-# и keys = list(acceptable_machines)
-# Архитектура: {weight: acceptable_machines} \in Job \in Task \in Conveyer,
-# \выходя из конвейера, распределяются по машинам
-# conveyer = dict(Task1: list_of_jobs(dict(int(Weight1): list(acceptable_machines1)), \
-# dict(int(Weight2): list(acceptable_machines2)), etc), Task2: list_of_jobs(...))
-# Конвейер преобразуется в Solution (как выглядит?)
-# class Job(dict):
-# job.acceptable_machines() - возвращает список машин, на которых может быть выполнена эта работа
-# job.cur_job() - возвращает значение веса работы
-# Создание Job1: Jobik1 = Job(machines=Machines1, job=Weight1)
-# class Task(dict):
-# task.get_task_if() - возвращает номер задания ('Task1' -> int(1))
-# task.List_of_jobs() - возвращает list(list(job1, job2, etc.)) Remember: job = {int(weight): list(acceptable_machines)}
-# обратиться к job[1] Task1.List_of_jobs()[0][1], first parametr of Task1.List...() is always [0]!!!
-# class Machine_types:
-#
-# где реализовать проверку на допустимость выполнения работы Х на машине У?
-# пока получается, что работы из разных тасков будут перемешиваться
-
-
 from copy import deepcopy
 from json.decoder import JSONDecoder
 import random
 import time
 import json
-import os
+
 
 class Job(dict):
     def __init__(self, machines, weight):
@@ -278,19 +252,19 @@ class Solution(dict):
         return new_solution
 
 
-    # @classmethod  #????
-    # def from_json(cls, filename : str) -> 'Solution':
-    #     file = open(filename, 'r')
-    #     data = json.loads(file.read())
-    #     file.close()
-    #
-    #     tasks = []
-    #     for n_task in data["jobs_data"]:
-    #         tasks.append(Task(n_task))
+    @classmethod
+    def from_json(cls, filename : str) -> 'Solution':
+        file = open(filename, 'r')
+        data = json.loads(file.read())
+        file.close()
+
+        tasks = []
+        for n_task in data["jobs_data"]:
+            tasks.append(Task(n_task))
 
 
         # ~create initial_solution - рандомно распределяем по всем машинам~
-        # return cls.conv_to_solution(tasks)
+        return cls.conv_to_solution(tasks)
 
 
 
@@ -381,6 +355,7 @@ def Tabu_Search(iterations = 10**3, tabuSetSize = 10, initialSolution = Solution
             bestSolution = bestNeighbor
 
     return bestSolution
+
 def input_data(file_name = 'data_for_cl.json'):
     with open(file_name, 'r') as f:
         x = json.load(f)
@@ -392,27 +367,20 @@ def input_data(file_name = 'data_for_cl.json'):
                     j.append(Job(value[0], weight=value[1]))
                 t = Task({key: deepcopy(j)})
                 inp.append(t)
-        s = Solution()
-        output = s.conv_to_solution(inp)
-        print(output.get_makespan())
-        return output
-from gen import n_test_files
-# if __name__ == '__main__':
-    # print(input_data('data_for_cl.json'))
+    s = Solution()
+    output = s.conv_to_solution(inp)
+    print(output.get_makespan())
+    return output
+    
+from generate_data import n_test_files
 
-for i in range(1, n_test_files+1):
-    print(f'\nfile{i}')
-    folder_path = 'tests'
-    # file_path = None
-    # if file_path:
-    #     file_path.clear()
-    file_path = os.path.join(folder_path, f'data_for_cl{i}.json')
+if __name__ == '__main__':
 
-    x = input_data(file_path)
-    print(len(x), type(x), '\n', sum(len(a) for a in x.values()))
-    mx = 100
-    hc = hill_climbing(x, iterations = mx)
-    print(hc.get_makespan())
-    ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
-    print(ts.get_makespan())
-    # del x
+    for i in range(1, n_test_files+1):
+        print(f'\nfile{i}')
+        x = input_data(f'tests/data_for_cl{i}.json')
+        mx = 1000
+        hc = hill_climbing(x, iterations = mx)
+        print(hc.get_makespan())
+        ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
+        print(ts.get_makespan())

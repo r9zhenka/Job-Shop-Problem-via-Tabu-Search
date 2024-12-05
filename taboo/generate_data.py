@@ -3,7 +3,7 @@ import json
 import os
 num_tasks = 100
 types_machines = ['CPU', 'GPU', 'MPU']
-# whole_input = []
+
 n_test_files = 10
 folder_path = 'tests'
 os.makedirs(folder_path, exist_ok=True)
