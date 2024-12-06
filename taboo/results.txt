@@ -1,0 +1,100 @@
+file: tests/data_for_cl1.json
+                     Start 166.0
+                     Hill_climbing 149.0
+                     Tabu Search 149.0
+                     Google solver 53
+file: tests/data_for_cl2.json
+                     Start 223.0
+                     Hill_climbing 79.0
+                     Tabu Search 79.0
+                     Google solver 64
+file: tests/data_for_cl3.json
+                     Start 171.0
+                     Hill_climbing 131.0
+                     Tabu Search 132.0
+                     Google solver 70
+file: tests/data_for_cl4.json
+                     Start 181.0
+                     Hill_climbing 117.0
+                     Tabu Search 120.0
+                     Google solver 61
+file: tests/data_for_cl5.json
+                     Start 181.0
+                     Hill_climbing 134.0
+                     Tabu Search 151.0
+                     Google solver 71
+file: tests/data_for_cl6.json
+                     Start 143.0
+                     Hill_climbing 127.0
+                     Tabu Search 127.0
+                     Google solver 52
+file: tests/data_for_cl7.json
+                     Start 166.0
+                     Hill_climbing 109.0
+                     Tabu Search 120.0
+                     Google solver 64
+file: tests/data_for_cl8.json
+                     Start 164.0
+                     Hill_climbing 128.0
+                     Tabu Search 128.0
+                     Google solver 65
+file: tests/data_for_cl9.json
+                     Start 178.0
+                     Hill_climbing 134.0
+                     Tabu Search 127.0
+                     Google solver 67
+file: tests/data_for_cl10.json
+                     Start 151.0
+                     Hill_climbing 147.0
+                     Tabu Search 147.0
+                     Google solver 56
+file: tests/data_for_cl1.json
+                     Start 161.0
+                     Hill_climbing 122.0
+                     Tabu Search 102.0
+                     Google solver 94
+file: tests/data_for_cl2.json
+                     Start 168.0
+                     Hill_climbing 120.0
+                     Tabu Search 127.0
+                     Google solver 81
+file: tests/data_for_cl3.json
+                     Start 158.0
+                     Hill_climbing 132.0
+                     Tabu Search 108.0
+                     Google solver 76
+file: tests/data_for_cl4.json
+                     Start 173.0
+                     Hill_climbing 126.0
+                     Tabu Search 88.0
+                     Google solver 80
+file: tests/data_for_cl5.json
+                     Start 164.0
+                     Hill_climbing 121.0
+                     Tabu Search 117.0
+                     Google solver 88
+file: tests/data_for_cl6.json
+                     Start 165.0
+                     Hill_climbing 125.0
+                     Tabu Search 108.0
+                     Google solver 86
+file: tests/data_for_cl7.json
+                     Start 148.0
+                     Hill_climbing 114.0
+                     Tabu Search 112.0
+                     Google solver 83
+file: tests/data_for_cl8.json
+                     Start 139.0
+                     Hill_climbing 90.0
+                     Tabu Search 121.0
+                     Google solver 93
+file: tests/data_for_cl9.json
+                     Start 155.0
+                     Hill_climbing 123.0
+                     Tabu Search 111.0
+                     Google solver 80
+file: tests/data_for_cl10.json
+                     Start 170.0
+                     Hill_climbing 81.0
+                     Tabu Search 99.0
+                     Google solver 97

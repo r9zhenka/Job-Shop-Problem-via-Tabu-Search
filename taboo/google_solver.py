@@ -1,6 +1,6 @@
 import collections
 from ortools.sat.python import cp_model
-
+# from classes import Task, Job
 
 def GoogleSolve(jobs_data):
     machines_count = 1 + max(task[0] for job in jobs_data for task in job)
@@ -100,6 +100,49 @@ def GoogleSolve(jobs_data):
             output += sol_line
         # print('-------------')
         return int(solver.objective_value)
+# @GoogleSolve
+def adapter(file_name):
 
-    with open('data_for_cl.json', 'r') as f:
-        print(GoogleSolve(f))
+    CPU = (10/4, 4, 'CPU')
+    GPU = (6/3, 3, 'GPU')
+    MPU = (10/4, 4, 'MPU')
+    with open(file_name, "r") as f:
+        jobs_data = json.load(f)
+        adapted_data = []
+        for tasks in jobs_data:
+            for task in tasks.values():
+                adapted_task = []
+                for job in task:
+                    accept_machine = job[0]
+                    weight = job[1]
+                    okruglitel = random.randint(0,1)
+                    if accept_machine == 'CPU':
+                        accept_machine = 0
+                        w = math.ceil(weight/CPU[0]/CPU[1])
+                        adapted_task.append((accept_machine, w - okruglitel if w>1 else w))
+                    elif accept_machine == 'GPU':
+                        accept_machine = 1
+                        w = math.ceil(weight/GPU[0]/GPU[1])
+                        adapted_task.append((accept_machine, w - okruglitel if w>1 else w))
+                    elif accept_machine == 'MPU':
+                        accept_machine = 2
+                        w = math.ceil(weight/MPU[0]/MPU[1])
+                        adapted_task.append((accept_machine, w - okruglitel if w>1 else w))
+                adapted_data.append(adapted_task)
+
+        return adapted_data
+import json
+import math
+import random
+# from generate_data import n_test_files
+# if __name__ == '__main__':
+# # def
+#     # n_test_files = 10
+#     for i in range(1, n_test_files + 1):
+#         file_name = f'tests/data_for_cl{i}.json'
+#         with open(file_name, 'r') as f:
+#
+#             # x = json.load(f)
+#             # print(x)
+#             print(GoogleSolve(adapter(file_name)))
+#             # print(adapter(x))

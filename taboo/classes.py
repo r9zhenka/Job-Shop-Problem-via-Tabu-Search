@@ -369,18 +369,27 @@ def input_data(file_name = 'data_for_cl.json'):
                 inp.append(t)
     s = Solution()
     output = s.conv_to_solution(inp)
-    print(output.get_makespan())
+    # print(output.get_makespan())
     return output
     
 from generate_data import n_test_files
-
+from google_solver import adapter, GoogleSolve
 if __name__ == '__main__':
 
     for i in range(1, n_test_files+1):
         print(f'\nfile{i}')
-        x = input_data(f'tests/data_for_cl{i}.json')
+        file_name = f'tests/data_for_cl{i}.json'
+        x = input_data(file_name)
+        start_res = x.get_makespan()
         mx = 1000
         hc = hill_climbing(x, iterations = mx)
-        print(hc.get_makespan())
-        ts = Tabu_Search(initialSolution = x, tabuSetSize = 10, iterations = mx)
-        print(ts.get_makespan())
+        hc_res = hc.get_makespan()
+        ts = Tabu_Search(initialSolution = x, tabuSetSize = 75, iterations = mx)
+        ts_res = ts.get_makespan()
+        gs_res = GoogleSolve(adapter(file_name))
+        with open('results.txt', 'a', encoding='utf-8') as f:
+            f.write(f'\nfile: {file_name}\n \
+                    Start {start_res}\n \
+                    Hill_climbing {hc_res}\n \
+                    Tabu Search {ts_res}\n \
+                    Google solver {gs_res}')
