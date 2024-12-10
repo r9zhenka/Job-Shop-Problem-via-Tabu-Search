@@ -3,7 +3,7 @@ import random
 
 
 TEST_COUNT = 2
-MACHINES = 10
+MACHINES = 100
 MAX_TIME = 100
 JOBS = 10
 

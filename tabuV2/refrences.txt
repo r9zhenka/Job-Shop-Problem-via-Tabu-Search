@@ -1,0 +1,3 @@
+https://www.researchgate.net/publication/226183797_Applying_Tabu_Search_to_the_Job-Shop_Scheduling_Problem
+https://developers.google.com/optimization/scheduling/job_shop
+https://www.geeksforgeeks.org/what-is-tabu-search/

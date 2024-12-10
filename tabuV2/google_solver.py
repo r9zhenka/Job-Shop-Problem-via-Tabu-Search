@@ -41,11 +41,11 @@ def GoogleSolve(jobs_data):
         model.add_no_overlap(machine_to_intervals[machine])
 
     # Precedences inside a job.
-    # for job_id, job in enumerate(jobs_data):
-    #     for task_id in range(len(job) - 1):
-    #         model.add(
-    #             all_tasks[job_id, task_id + 1].start >= all_tasks[job_id, task_id].end
-    #         )
+    for job_id, job in enumerate(jobs_data):
+        for task_id in range(len(job) - 1):
+            model.add(
+                all_tasks[job_id, task_id + 1].start >= all_tasks[job_id, task_id].end
+            )
 
     # Makespan objective.
     obj_var = model.new_int_var(0, horizon, "makespan")
