@@ -2,8 +2,8 @@ import os
 import random
 
 
-TEST_COUNT = 2
-MACHINES = 100
+TEST_COUNT = 1
+MACHINES = 60
 MAX_TIME = 100
 JOBS = 10
 
