@@ -1,6 +1,9 @@
-import random
 import json
+import random
+import time
 from copy import deepcopy
+from functools import cache
+from collections import deque
 
 
 INF = 99999999
@@ -16,6 +19,16 @@ def PrintGraph(edges):
     return
 
 
+def timeit(func):
+    def measure_time(*args, **kw):
+        start_time = time.time()
+        result = func(*args, **kw)
+        print("Processing time of %s(): %.2f seconds."
+                % (func.__qualname__, time.time() - start_time))
+        return result
+    return measure_time
+
+
 class Operation:
     def __init__(self, machine, weight, job, machines) -> None:
         if machines != 0:
@@ -24,12 +37,14 @@ class Operation:
             self.weight = weight
             self.index = job * machines + machine + 1
             self.nextIndex = 0
+            self.prevIndex = 0
         else:
             self.job = -1
             self.machine = -1
             self.weight = 0
             self.index = 0
             self.nextIndex = 0
+            self.prevIndex = 0
 
         return
 
@@ -44,6 +59,7 @@ class Solution:
         # we also add 2 nodes (start and end)
         self.operationArr = operationArr
         self.edgesMat = edgesMat
+        self.makespan = None
 
 
     @classmethod
@@ -69,10 +85,15 @@ class Solution:
                 if operationInd == 0:
                     startingOperations.append(operation.index)
 
-                if (operationInd != len(jobsData[jobInd]) - 1):
+                if operationInd != len(jobsData[jobInd]) - 1:
                     nextMachine = jobsData[jobInd][operationInd + 1][0]
                     nextOperationIndex = jobInd * machines + nextMachine + 1
                     operation.nextIndex = nextOperationIndex
+
+                if operationInd != 0:
+                    prevMachine = jobsData[jobInd][operationInd - 1][0]
+                    prevOperationIndex = jobInd * machines + prevMachine + 1
+                    operation.prevIndex = prevOperationIndex
 
                 operationArr[operation.index] = operation
 
@@ -97,11 +118,21 @@ class Solution:
         return instance
 
 
+    def GetOperationTimeLeft(self, operationInd) -> int:
+        time = 0
+        while self.operationArr[operationInd].nextIndex != 0:
+            time += self.operationArr[operationInd].weight
+            operationInd = self.operationArr[operationInd].nextIndex
+        return time
+
+
     def ListSchedule(self):
         scheduled = [0]
         priority = self.startingOperations.copy()
         while priority:
             i = priority.pop(0)
+            # i = max(priority, key=self.GetOperationTimeLeft)
+            # priority.remove(i)
 
             for j in scheduled:
                 if self.edgesMat[i][j] == NOT_DIRECTED:
@@ -114,6 +145,7 @@ class Solution:
         return
 
 
+    @cache
     def GetCriticalPath(self) -> list[int]:
         # PLACEHOLDER
         start, finish = 0, self.operations + 1
@@ -123,7 +155,7 @@ class Solution:
 
         q = [ ([start], 0) ]
         while q:
-            path, weight = q.pop(0)
+            path, weight = q.pop()
             curr = path[-1]
 
             if curr == finish:
@@ -141,8 +173,45 @@ class Solution:
         return longestPath
 
 
+    @cache
     def GetMakespan(self) -> int:
-        return sum(self.operationArr[i].weight for i in self.GetCriticalPath())
+        start, finish = 0, self.operations + 1
+
+        longestPath = 0
+        q = [ (start, 0) ]
+        while q:
+            curr, weight = q.pop()
+
+            if curr == finish:
+                longestPath = max(longestPath, weight)
+
+            for child in range(self.operations + 2):
+                if child == curr: continue
+                if self.edgesMat[curr][child] != DIRECTED: continue
+                q.append( (child, weight + self.operationArr[child].weight) )
+
+        return longestPath
+
+
+    def GetMakespanApproximation(self) -> int:
+        if self.makespan is not None: return self.makespan
+
+        start, finish = 0, self.operations + 1
+
+        longestPath = 0
+        q = [ (start, 0) ]
+        while q:
+            curr, weight = q.pop(0)
+
+            if curr == finish:
+                longestPath = max(longestPath, weight)
+
+            for child in range(self.operations + 2):
+                if child == curr: continue
+                if self.edgesMat[curr][child] != DIRECTED: continue
+                q.append( (child, weight + self.operationArr[child].weight) )
+
+        return longestPath
 
 
     def GetNeighbors(self) -> list['Solution']:
@@ -157,6 +226,8 @@ class Solution:
 
             flippable.append( (operationA.index, operationB.index) )
 
+        # flippable = random.sample(flippable, min(self.machines, len(flippable)))
+
         neighbors = []
         for indA, indB in flippable:
             newEdgesMat = deepcopy(self.edgesMat)
@@ -167,26 +238,24 @@ class Solution:
         return neighbors
 
 
-def TabuSearch(initialSolution : Solution, iterations : int, tabuSetSize : int):
+def TabuSearch(initialSolution : Solution, iterations : int = 10, tabuSetSize : int = 3):
     currentSolution = initialSolution
     bestSolution = currentSolution
 
     tabuSet = set()
 
     for _ in range(iterations):
-        neighbors = currentSolution.GetNeighbors()
         bestNeighbor = None
         bestNeighborMakespan = INF
 
-        for neighbor in neighbors:
+        for neighbor in currentSolution.GetNeighbors():
             if neighbor not in tabuSet:
-                neighborMakespan = neighbor.GetMakespan()
-                if neighborMakespan < bestNeighborMakespan:
-                    bestNeighbor = neighbor
-                    bestNeighborMakespan = neighborMakespan
+                neighborMakespan = neighbor.GetMakespanApproximation()
+                if neighborMakespan >= bestNeighborMakespan: continue
+                bestNeighbor = neighbor
+                bestNeighborMakespan = neighborMakespan
 
         if bestNeighbor is None:
-            # print("No non-tabu neighbors found, terminate the search")
             break
 
         currentSolution = bestNeighbor
@@ -206,6 +275,6 @@ if __name__ == "__main__":
     jobsData = json.loads(file.read())["jobs_data"]
     file.close()
 
-    tabu = TabuSearch(Solution.from_list(jobsData), iterations = 10, tabuSetSize = 3)
+    tabu = TabuSearch(Solution.from_list(jobsData), 0, 3)
     PrintGraph(tabu.edgesMat)
     print(tabu.GetMakespan())

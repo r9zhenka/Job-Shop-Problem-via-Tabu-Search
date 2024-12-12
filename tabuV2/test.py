@@ -9,6 +9,8 @@ testsPath = "tests/"
 if __name__ == "__main__":
     fileCount = len(os.listdir(testsPath))
     for i in range(fileCount):
+        if i > 10: break
+
         filename = str(i) + ".json"
 
         try:
@@ -16,7 +18,7 @@ if __name__ == "__main__":
             jobsData = json.loads(file.read())["jobs_data"]
             file.close()
 
-            tabu = TabuSearch(Solution.from_list(jobsData), iterations = 1000, tabuSetSize = 1000).GetMakespan()
+            tabu = TabuSearch(Solution.from_list(jobsData)).GetMakespan()
             print(filename, "Tabu", tabu, "Google", GoogleSolve(jobsData))
 
         except Exception as ex:
