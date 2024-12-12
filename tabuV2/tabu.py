@@ -2,7 +2,6 @@ import json
 import random
 import time
 from copy import deepcopy
-from functools import cache
 from collections import deque
 
 
@@ -59,6 +58,8 @@ class Solution:
         # we also add 2 nodes (start and end)
         self.operationArr = operationArr
         self.edgesMat = edgesMat
+
+        self.criticalPath = None
         self.makespan = None
 
 
@@ -109,6 +110,7 @@ class Solution:
                 edgesMat[operation.index][operation.nextIndex] = DIRECTED
 
             for j in range(1, operations + 1):
+                if i == j: continue
                 other = operationArr[j]
                 if operation.machine == other.machine:
                     edgesMat[operation.index][other.index] = NOT_DIRECTED
@@ -128,11 +130,13 @@ class Solution:
 
     def ListSchedule(self):
         scheduled = [0]
+        # scheduled = [0 for _ in range(self.machines)]
+
         priority = self.startingOperations.copy()
         while priority:
-            i = priority.pop(0)
-            # i = max(priority, key=self.GetOperationTimeLeft)
-            # priority.remove(i)
+            # i = priority.pop(0)
+            i = max(priority, key=self.GetOperationTimeLeft)
+            priority.remove(i)
 
             for j in scheduled:
                 if self.edgesMat[i][j] == NOT_DIRECTED:
@@ -140,13 +144,19 @@ class Solution:
                     self.edgesMat[j][i] = DIRECTED
             scheduled.append(i)
 
+            # if scheduled[self.operationArr[i].machine] != 0:
+            #     self.edgesMat[i][scheduled[self.operationArr[i].machine]] = NO_EDGE
+            #     self.edgesMat[scheduled[self.operationArr[i].machine]][i] = DIRECTED
+            # scheduled[self.operationArr[i].machine] = i
+
             if self.operationArr[i].nextIndex != 0:
                 priority.append(self.operationArr[i].nextIndex)
         return
 
 
-    @cache
     def GetCriticalPath(self) -> list[int]:
+        if self.criticalPath is not None: return self.criticalPath
+
         # PLACEHOLDER
         start, finish = 0, self.operations + 1
 
@@ -154,9 +164,13 @@ class Solution:
         longestPathWeight = 0
 
         q = [ ([start], 0) ]
+        v = [0 for _ in range(self.operations + 2)]
         while q:
             path, weight = q.pop()
             curr = path[-1]
+
+            if v[curr] > weight: continue
+            v[curr] = weight
 
             if curr == finish:
                 if weight > longestPathWeight:
@@ -170,17 +184,24 @@ class Solution:
                 newPath.append(child)
                 q.append((newPath, weight + self.operationArr[child].weight))
 
+        self.criticalPath = longestPath
+        self.makespan = longestPathWeight
         return longestPath
 
 
-    @cache
     def GetMakespan(self) -> int:
+        if self.makespan is not None: return self.makespan
         start, finish = 0, self.operations + 1
 
         longestPath = 0
+
         q = [ (start, 0) ]
+        v = [0 for _ in range(self.operations + 2)]
         while q:
             curr, weight = q.pop()
+
+            if v[curr] > weight: continue
+            v[curr] = weight
 
             if curr == finish:
                 longestPath = max(longestPath, weight)
@@ -195,16 +216,24 @@ class Solution:
 
     def GetMakespanApproximation(self) -> int:
         if self.makespan is not None: return self.makespan
-
         start, finish = 0, self.operations + 1
 
         longestPath = 0
+
+        count = 0
+        iterations = 0
+
         q = [ (start, 0) ]
-        while q:
-            curr, weight = q.pop(0)
+        v = [0 for _ in range(self.operations + 2)]
+        while q and count < iterations:
+            curr, weight = q.pop()
+
+            if v[curr] > weight: continue
+            v[curr] = weight
 
             if curr == finish:
                 longestPath = max(longestPath, weight)
+                count += 1
 
             for child in range(self.operations + 2):
                 if child == curr: continue
@@ -214,7 +243,8 @@ class Solution:
         return longestPath
 
 
-    def GetNeighbors(self) -> list['Solution']:
+
+    def GetBestNeighbor(self) -> "Solution | None":
         flippable = []
         criticalPath = self.GetCriticalPath()
         for i in range(len(criticalPath) - 1):
@@ -226,16 +256,25 @@ class Solution:
 
             flippable.append( (operationA.index, operationB.index) )
 
-        # flippable = random.sample(flippable, min(self.machines, len(flippable)))
+        bestNeighbor = None
+        bestMakespanApproximation = INF
 
-        neighbors = []
         for indA, indB in flippable:
-            newEdgesMat = deepcopy(self.edgesMat)
-            newEdgesMat[indA][indB] = NO_EDGE
-            newEdgesMat[indB][indA] = DIRECTED
-            neighbors.append(Solution(self.machines, self.operationArr, newEdgesMat, self.startingOperations))
+            self.edgesMat[indA][indB] = NO_EDGE
+            self.edgesMat[indB][indA] = DIRECTED
 
-        return neighbors
+            neighbor = Solution(self.machines, self.operationArr, self.edgesMat, self.startingOperations)
+            approximation = neighbor.GetMakespanApproximation()
+            if approximation < bestMakespanApproximation:
+                bestMakespanApproximation = approximation
+                newEdgesMat = deepcopy(self.edgesMat)
+                bestNeighbor = Solution(self.machines, self.operationArr, newEdgesMat, self.startingOperations)
+
+            self.edgesMat[indA][indB] = DIRECTED
+            self.edgesMat[indB][indA] = NO_EDGE
+
+        return bestNeighbor
+
 
 
 def TabuSearch(initialSolution : Solution, iterations : int = 10, tabuSetSize : int = 3):
@@ -248,12 +287,14 @@ def TabuSearch(initialSolution : Solution, iterations : int = 10, tabuSetSize : 
         bestNeighbor = None
         bestNeighborMakespan = INF
 
-        for neighbor in currentSolution.GetNeighbors():
-            if neighbor not in tabuSet:
-                neighborMakespan = neighbor.GetMakespanApproximation()
-                if neighborMakespan >= bestNeighborMakespan: continue
-                bestNeighbor = neighbor
-                bestNeighborMakespan = neighborMakespan
+        # for neighbor in currentSolution.GetNeighbors():
+        #     if neighbor not in tabuSet:
+        #         neighborMakespan = neighbor.GetMakespanApproximation()
+        #         if neighborMakespan >= bestNeighborMakespan: continue
+        #         bestNeighbor = neighbor
+        #         bestNeighborMakespan = neighborMakespan
+
+        bestNeighbor = currentSolution.GetBestNeighbor()
 
         if bestNeighbor is None:
             break

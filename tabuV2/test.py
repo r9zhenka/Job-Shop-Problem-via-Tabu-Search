@@ -9,7 +9,7 @@ testsPath = "tests/"
 if __name__ == "__main__":
     fileCount = len(os.listdir(testsPath))
     for i in range(fileCount):
-        if i > 10: break
+        # if i > 16: break
 
         filename = str(i) + ".json"
 
