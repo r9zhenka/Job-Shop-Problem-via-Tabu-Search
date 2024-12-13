@@ -153,7 +153,10 @@ class Solution:
         return
 
 
-    def CriticalPathHelp(self, start, finish):
+    def GetCriticalPath(self) -> list[int]:
+        if self.criticalPath is not None: return self.criticalPath
+
+        start, finish  = 0, self.operations + 1
         longestPath = []
         longestPathWeight = 0
 
@@ -177,15 +180,6 @@ class Solution:
                 newPath = path.copy()
                 newPath.append(child)
                 q.append((newPath, weight + self.operationArr[child].weight))
-
-        return longestPath
-
-
-    def GetCriticalPath(self) -> list[int]:
-        if self.criticalPath is not None: return self.criticalPath
-
-        start, finish  = 0, self.operations + 1
-        longestPath = self.CriticalPathHelp(start, finish)
 
         self.criticalPath = longestPath
         return longestPath
@@ -228,8 +222,6 @@ class Solution:
 
             flippable.append( (operationA.index, operationB.index) )
 
-        # print(len(flippable))
-
         bestNeighbor = None
         bestMakespanApproximation = INF
 
@@ -250,16 +242,29 @@ class Solution:
         return bestNeighbor
 
 
+    def GetOperationStartTime(self, finish) -> int:
+        q = [ (0, 0) ]
+        bestWeights = [0 for _ in range(self.operations + 2)]
+        while q:
+            curr, weight = q.pop()
+            bestWeights[curr] = weight
+
+            for child in range(self.operations + 2):
+                if self.edgesMat[curr][child] != DIRECTED: continue
+                if bestWeights[child] > weight + self.operationArr[child].weight: continue
+
+                q.append( (child, weight + self.operationArr[child].weight) )
+
+        return bestWeights[finish] - self.operationArr[finish].weight
+
+
     def GetMachinesSchedule(self) -> list:
         schedule = [[] for _ in range(self.machines)]
 
         for operation in self.operationArr[1 : -1]:
             if operation.job == -1: continue
-            start = sum(self.operationArr[i].weight for i in self.CriticalPathHelp(0, operation.index)) - operation.weight
+            start = self.GetOperationStartTime(operation.index)
             schedule[operation.machine].append( (start, start + operation.weight, operation.job) )
-
-        # for machineInd in range(len(schedule)):
-        #     schedule[machineInd].sort(key=cmp_to_key(lambda x, y: self.edgesMat[x][y] != DIRECTED))
 
         return schedule
 

@@ -20,9 +20,6 @@ if __name__ == "__main__":
             print(filename)
             print("Operations", tabu.operations)
             print("Tabu", tabu.GetMakespan(), "Google", GoogleSolve(jobsData))
-            print(tabu.GetMachinesSchedule())
-
-            # print(filename, "Tabu", tabu)
 
         except Exception as ex:
             print(filename, "Skipped due to", ex)
