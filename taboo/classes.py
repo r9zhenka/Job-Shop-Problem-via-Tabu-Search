@@ -3,14 +3,15 @@ from json.decoder import JSONDecoder
 import random
 import time
 import json
-
+# [{task1: [[Type_machine, [precedence, weight]]] - type Job} - type Task]
 
 class Job(dict):
-    def __init__(self, machines, weight):
+    def __init__(self, machines, task, precedence, weight):
         super().__init__(self)
         self.machines = machines
         self.weight = weight
-
+        self.precedence = precedence
+        self.task = task
 
     def __str__(self):
         return f'{self.weight, self.machines}'
@@ -35,12 +36,12 @@ class Job(dict):
         # return self.machines
 
 
-    def generator(self):
-        type_of_machines = ['CPU', 'GPU', 'MPU']
-        m = random.choice(type_of_machines)
-        w = random.randint(1, 10)
-        a = Job(m, w)
-        return a
+    # def generator(self):
+    #     type_of_machines = ['CPU', 'GPU', 'MPU']
+    #     m = random.choice(type_of_machines)
+    #     w = random.randint(1, 10)
+    #     a = Job(m, w)
+    #     return a
 
 
 class Task(dict):
@@ -75,7 +76,12 @@ class Task(dict):
     def List_of_jobs(self):
         all_jobs = []
         for keys, values in self.items():
-            all_jobs.append(Job(keys, values))
+            task = keys.get_task_id()
+            for value in values:
+                # num_mach = keys.get_task_id()
+                num_mach = value[0]
+                precedence, weight = value[1][:]   #?????
+                all_jobs.append(Job(task=task,precedence=precedence, machines=num_mach, weight=weight))
         return self.list_of_jobs
 
 
@@ -154,7 +160,7 @@ class Solution(dict):
             x += str(f'machine{i} has these {len(self[f'machine{i}'])} jobs: ') + str(self[f'machine{i}']) + '\n'
         return x
 
-
+    #не учитывает пустоты
     def get_makespan(self):
         max_makespan = 0
         for machine_name in self.keys():
@@ -384,9 +390,9 @@ if __name__ == '__main__':
         mx = 1000
         hc = hill_climbing(x, iterations = mx)
         hc_res = hc.get_makespan()
-        ts = Tabu_Search(initialSolution = x, tabuSetSize = 75, iterations = mx)
+        ts = Tabu_Search(initialSolution = x, tabuSetSize = 100, iterations = mx)
         ts_res = ts.get_makespan()
-        gs_res = GoogleSolve(adapter(file_name))
+        # gs_res = GoogleSolve(adapter(file_name))
         with open('results.txt', 'a', encoding='utf-8') as f:
             f.write(f'\nfile: {file_name}\n \
                     Start {start_res}\n \
