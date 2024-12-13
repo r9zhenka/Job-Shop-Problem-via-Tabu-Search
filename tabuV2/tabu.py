@@ -298,13 +298,17 @@ def TabuSearch(initialSolution : Solution, iterations : int = 10, tabuSetSize : 
     print(history)
     return bestSolution
 
+from visualisation import Gantt
 
 if __name__ == "__main__":
-    file = open("tests/0.json", 'r')
+    START_TIME = time.time()
+    filename = '14'
+    file = open(f"tests/{filename}.json", 'r')
     jobsData = json.loads(file.read())["jobs_data"]
     file.close()
 
     tabu = TabuSearch(Solution.from_list(jobsData), 0, 3)
-    PrintGraph(tabu.edgesMat)
-    print(tabu.GetMakespan())
-    print(tabu.GetMachinesSchedule())
+    # PrintGraph(tabu.edgesMat)
+    # print(tabu.GetMakespan())
+    END_TIME = time.time()
+    Gantt(tabu.GetMachinesSchedule(), filename=filename, stats={'makespan': tabu.GetMakespan(), 'time': round(END_TIME - START_TIME, 5)})

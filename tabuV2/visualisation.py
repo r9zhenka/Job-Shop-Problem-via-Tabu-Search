@@ -1,31 +1,49 @@
 import matplotlib.pyplot as plt
-# making Gant chart
-# Declaring a figure "gnt"
-fig, gnt = plt.subplots()
-# Setting Y-axis limits
-gnt.set_ylim(0, 50)
-# Setting X-axis limits
-gnt.set_xlim(0, 160)
-# Setting labels for x-axis and y-axis
-gnt.set_xlabel('seconds since start')
-gnt.set_ylabel('machine')
+import matplotlib.patches as mpatches
 
-# Setting ticks on y-axis
-gnt.set_yticks([x*10 for x in range(1,11)])
-# Labelling tickes of y-axis
-gnt.set_yticklabels([str(x) for x in range(1, 11)])
+# диаграмма Гантта
+def Gantt(job_shop_data, filename = 'Unknown', stats=None, benchmark_makespan = None):
+    """
+    Строит диаграмму Гантта для Job Shop Problem.
+    """
+    num_machines = len(job_shop_data)
+    colors = plt.cm.tab20.colors  # берем готовую палитру
 
-# Setting graph attribute
-gnt.grid(True)
+    fig, ax = plt.subplots(figsize=(10, 6))
 
-# Declaring a bar in schedule
-gnt.broken_barh([(40, 50)], (30, 9), facecolors=('tab:orange'))
+    # Перебираем машины
+    for machine_index, machine_operations in enumerate(job_shop_data):
+        for operation in machine_operations:
+            start, end, job_id = operation
+            ax.barh(machine_index, end - start, left=start, color=colors[job_id % len(colors)], edgecolor='black', height=0.8)
 
-# Declaring multiple bars in at same level and same width
-gnt.broken_barh([(110, 10), (150, 10)], (10, 9),
-                facecolors='tab:blue')
+    ax.set_yticks(range(num_machines))
+    ax.set_yticklabels([f"Machine {i}" for i in range(num_machines)])
+    ax.set_xlabel("Time")
+    ax.set_title(f"Gantt Chart for file: '{filename}'")
 
-gnt.broken_barh([(10, 50), (100, 20), (130, 10)], (20, 9),
-                facecolors=('tab:red'))
-plt.show()
-# plt.savefig("gantt1.png")
+    # legend
+    job_ids = sorted(set(op[2] for machine in job_shop_data for op in machine))
+    job_patches = [mpatches.Patch(color=colors[job_id % len(colors)], label=f"Job {job_id}") for job_id in job_ids]
+    benchmark_patch = None
+    if benchmark_makespan is not None:
+        ax.axvline(x=benchmark_makespan, color='red', linestyle='--', linewidth=2)
+        benchmark_patch = mpatches.Patch(color='red', label=f"Benchmark: {benchmark_makespan}")
+
+    all_patches = job_patches
+    if benchmark_patch:
+        all_patches.append(benchmark_patch)
+
+    ax.legend(handles=all_patches, title="Legend", bbox_to_anchor=(1.05, 1), loc="upper left")
+
+    if stats:
+        stats['dimension'] = f'{num_machines}x{len(job_ids)}'
+        stats_text = "\n".join([f"{key}: {value}" for key, value in stats.items()])
+        ax.text(
+            1.05, 1.1, stats_text, transform=ax.transAxes, fontsize=10,
+            verticalalignment='bottom', bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5)
+        )
+
+    plt.tight_layout()
+    plt.show()
+

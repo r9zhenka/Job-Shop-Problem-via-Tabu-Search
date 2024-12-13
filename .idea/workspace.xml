@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3cd874eb-4bbb-464e-812b-0279b0d418f9" name="Changes" comment="test">
+      <change beforePath="$PROJECT_DIR$/tabuV2/tabu.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/tabu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tabuV2/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tabuV2/visualisation.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/visualisation.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;r9zhenka&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/r9zhenka/tabu_search.git&quot;,
+    &quot;accountId&quot;: &quot;f3eb9583-7653-4a5b-951a-dbbe05988dc1&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2p5IwtCLacRFyC71AEudDloBusl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.8.executor": "Run",
+    "Python.Opred. Integral.executor": "Run",
+    "Python.classes.executor": "Run",
+    "Python.degenerate.executor": "Run",
+    "Python.gen.executor": "Run",
+    "Python.generate_data.executor": "Run",
+    "Python.generate_tests.executor": "Run",
+    "Python.google_solver.executor": "Run",
+    "Python.graph_builder.executor": "Run",
+    "Python.realisation.executor": "Run",
+    "Python.tabu.executor": "Run",
+    "Python.tabu_with_precedences.executor": "Run",
+    "Python.test.executor": "Run",
+    "Python.visualisation.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "C:/Users/R9zhE/Downloads/Telegram Desktop/8.py",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
+    "settings.editor.selected.configurable": "configurable.group.project",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\R9zhE\PycharmProjects\tabu_search\tabuV2" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PY-241.19416.19" />
+        <option value="bundled-python-sdk-337b0a7a993a-2767605e8bc2-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-241.19416.19" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3cd874eb-4bbb-464e-812b-0279b0d418f9" name="Changes" comment="" />
+      <created>1732049751944</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732049751944</updated>
+      <workItem from="1732049753094" duration="2101000" />
+      <workItem from="1732082481809" duration="1639000" />
+      <workItem from="1732097465035" duration="4219000" />
+      <workItem from="1732900175203" duration="10000" />
+      <workItem from="1732909793668" duration="10632000" />
+      <workItem from="1732920806589" duration="33000" />
+      <workItem from="1733398815961" duration="6358000" />
+      <workItem from="1733498395293" duration="6114000" />
+      <workItem from="1733580269722" duration="831000" />
+      <workItem from="1733650822851" duration="1661000" />
+      <workItem from="1733915657998" duration="11805000" />
+      <workItem from="1733991103195" duration="34000" />
+      <workItem from="1734006251307" duration="23618000" />
+      <workItem from="1734099303997" duration="20162000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="test" />
+    <option name="LAST_COMMIT_MESSAGE" value="test" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/tabu_search$tabu.coverage" NAME="tabu Coverage Results" MODIFIED="1734122024392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$test.coverage" NAME="test Coverage Results" MODIFIED="1734124628949" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$8.coverage" NAME="8 Coverage Results" MODIFIED="1733923233531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/Telegram Desktop" />
+    <SUITE FILE_PATH="coverage/tabu_search$generate_tests.coverage" NAME="generate_tests Coverage Results" MODIFIED="1734100977237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$Opred__Integral.coverage" NAME="Opred. Integral Coverage Results" MODIFIED="1732144136993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$" />
+    <SUITE FILE_PATH="coverage/tabu_search$classes.coverage" NAME="classes Coverage Results" MODIFIED="1734103553838" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
+    <SUITE FILE_PATH="coverage/tabu_search$generate_data.coverage" NAME="generate_data Coverage Results" MODIFIED="1734113827495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
+    <SUITE FILE_PATH="coverage/tabu_search$graph_builder.coverage" NAME="graph_builder Coverage Results" MODIFIED="1733651572324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
+    <SUITE FILE_PATH="coverage/tabu_search$realisation.coverage" NAME="realisation Coverage Results" MODIFIED="1732102526358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/job_shop/pypycha" />
+    <SUITE FILE_PATH="coverage/tabu_search$visualisation.coverage" NAME="visualisation Coverage Results" MODIFIED="1734124539994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$degenerate.coverage" NAME="degenerate Coverage Results" MODIFIED="1732911922643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
+    <SUITE FILE_PATH="coverage/tabu_search$gen.coverage" NAME="gen Coverage Results" MODIFIED="1733406145615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
+    <SUITE FILE_PATH="coverage/tabu_search$google_solver.coverage" NAME="google_solver Coverage Results" MODIFIED="1733500055939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
+    <SUITE FILE_PATH="coverage/tabu_search$tabu_with_precedences.coverage" NAME="tabu_with_precedences Coverage Results" MODIFIED="1734116052786" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
+  </component>
+</project>
