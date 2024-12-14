@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3cd874eb-4bbb-464e-812b-0279b0d418f9" name="Changes" comment="test">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tabuV2/tabu.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/tabu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tabuV2/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tabuV2/visualisation.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/visualisation.py" afterDir="false" />
@@ -50,35 +51,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.8.executor": "Run",
-    "Python.Opred. Integral.executor": "Run",
-    "Python.classes.executor": "Run",
-    "Python.degenerate.executor": "Run",
-    "Python.gen.executor": "Run",
-    "Python.generate_data.executor": "Run",
-    "Python.generate_tests.executor": "Run",
-    "Python.google_solver.executor": "Run",
-    "Python.graph_builder.executor": "Run",
-    "Python.realisation.executor": "Run",
-    "Python.tabu.executor": "Run",
-    "Python.tabu_with_precedences.executor": "Run",
-    "Python.test.executor": "Run",
-    "Python.visualisation.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/R9zhE/Downloads/Telegram Desktop/8.py",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "aDefault",
-    "settings.editor.selected.configurable": "configurable.group.project",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.8.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Opred. Integral.executor&quot;: &quot;Run&quot;,
+    &quot;Python.classes.executor&quot;: &quot;Run&quot;,
+    &quot;Python.degenerate.executor&quot;: &quot;Run&quot;,
+    &quot;Python.gen.executor&quot;: &quot;Run&quot;,
+    &quot;Python.generate_data.executor&quot;: &quot;Run&quot;,
+    &quot;Python.generate_tests.executor&quot;: &quot;Run&quot;,
+    &quot;Python.google_solver.executor&quot;: &quot;Run&quot;,
+    &quot;Python.graph_builder.executor&quot;: &quot;Run&quot;,
+    &quot;Python.realisation.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tabu.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tabu_with_precedences.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.visualisation.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/R9zhE/Downloads/Telegram Desktop/8.py&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;aDefault&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.project&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\R9zhE\PycharmProjects\tabu_search\tabuV2" />
@@ -113,7 +114,8 @@
       <workItem from="1733915657998" duration="11805000" />
       <workItem from="1733991103195" duration="34000" />
       <workItem from="1734006251307" duration="23618000" />
-      <workItem from="1734099303997" duration="20162000" />
+      <workItem from="1734099303997" duration="23498000" />
+      <workItem from="1734167218760" duration="2030000" />
     </task>
     <servers />
   </component>
@@ -154,7 +156,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tabu_search$tabu.coverage" NAME="tabu Coverage Results" MODIFIED="1734122024392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
-    <SUITE FILE_PATH="coverage/tabu_search$test.coverage" NAME="test Coverage Results" MODIFIED="1734124628949" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$test.coverage" NAME="test Coverage Results" MODIFIED="1734168911077" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
     <SUITE FILE_PATH="coverage/tabu_search$8.coverage" NAME="8 Coverage Results" MODIFIED="1733923233531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/Telegram Desktop" />
     <SUITE FILE_PATH="coverage/tabu_search$generate_tests.coverage" NAME="generate_tests Coverage Results" MODIFIED="1734100977237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
     <SUITE FILE_PATH="coverage/tabu_search$Opred__Integral.coverage" NAME="Opred. Integral Coverage Results" MODIFIED="1732144136993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$" />
@@ -162,7 +164,7 @@
     <SUITE FILE_PATH="coverage/tabu_search$generate_data.coverage" NAME="generate_data Coverage Results" MODIFIED="1734113827495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$graph_builder.coverage" NAME="graph_builder Coverage Results" MODIFIED="1733651572324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$realisation.coverage" NAME="realisation Coverage Results" MODIFIED="1732102526358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/job_shop/pypycha" />
-    <SUITE FILE_PATH="coverage/tabu_search$visualisation.coverage" NAME="visualisation Coverage Results" MODIFIED="1734124539994" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$visualisation.coverage" NAME="visualisation Coverage Results" MODIFIED="1734167898007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
     <SUITE FILE_PATH="coverage/tabu_search$degenerate.coverage" NAME="degenerate Coverage Results" MODIFIED="1732911922643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$gen.coverage" NAME="gen Coverage Results" MODIFIED="1733406145615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$google_solver.coverage" NAME="google_solver Coverage Results" MODIFIED="1733500055939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />

@@ -4,6 +4,7 @@ import time
 from copy import deepcopy
 from collections import deque
 from functools import cmp_to_key
+from visualisation import Gantt
 
 
 INF = 999999999
@@ -269,7 +270,7 @@ class Solution:
         return schedule
 
 
-def TabuSearch(initialSolution : Solution, iterations : int = 10, tabuSetSize : int = 3):
+def TabuSearch(initialSolution : Solution, iterations : int = 100, tabuSetSize : int = 10):
     currentSolution = initialSolution
     bestSolution = currentSolution
 
@@ -298,8 +299,6 @@ def TabuSearch(initialSolution : Solution, iterations : int = 10, tabuSetSize : 
     print(history)
     return bestSolution
 
-from visualisation import Gantt
-
 if __name__ == "__main__":
     START_TIME = time.time()
     filename = '14'
@@ -307,7 +306,7 @@ if __name__ == "__main__":
     jobsData = json.loads(file.read())["jobs_data"]
     file.close()
 
-    tabu = TabuSearch(Solution.from_list(jobsData), 0, 3)
+    tabu = TabuSearch(Solution.from_list(jobsData), 10, 3)
     # PrintGraph(tabu.edgesMat)
     # print(tabu.GetMakespan())
     END_TIME = time.time()
