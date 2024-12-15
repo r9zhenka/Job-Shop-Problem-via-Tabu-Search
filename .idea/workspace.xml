@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3cd874eb-4bbb-464e-812b-0279b0d418f9" name="Changes" comment="test">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tabuV2/tabu.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/tabu.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tabuV2/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/test.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tabuV2/visualisation.py" beforeDir="false" afterPath="$PROJECT_DIR$/tabuV2/visualisation.py" afterDir="false" />
     </list>
@@ -115,7 +114,7 @@
       <workItem from="1733991103195" duration="34000" />
       <workItem from="1734006251307" duration="23618000" />
       <workItem from="1734099303997" duration="23498000" />
-      <workItem from="1734167218760" duration="2030000" />
+      <workItem from="1734167218760" duration="12640000" />
     </task>
     <servers />
   </component>
@@ -156,7 +155,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tabu_search$tabu.coverage" NAME="tabu Coverage Results" MODIFIED="1734122024392" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
-    <SUITE FILE_PATH="coverage/tabu_search$test.coverage" NAME="test Coverage Results" MODIFIED="1734168911077" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$test.coverage" NAME="test Coverage Results" MODIFIED="1734257691144" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
     <SUITE FILE_PATH="coverage/tabu_search$8.coverage" NAME="8 Coverage Results" MODIFIED="1733923233531" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads/Telegram Desktop" />
     <SUITE FILE_PATH="coverage/tabu_search$generate_tests.coverage" NAME="generate_tests Coverage Results" MODIFIED="1734100977237" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
     <SUITE FILE_PATH="coverage/tabu_search$Opred__Integral.coverage" NAME="Opred. Integral Coverage Results" MODIFIED="1732144136993" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$" />
@@ -164,7 +163,7 @@
     <SUITE FILE_PATH="coverage/tabu_search$generate_data.coverage" NAME="generate_data Coverage Results" MODIFIED="1734113827495" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$graph_builder.coverage" NAME="graph_builder Coverage Results" MODIFIED="1733651572324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$realisation.coverage" NAME="realisation Coverage Results" MODIFIED="1732102526358" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/job_shop/pypycha" />
-    <SUITE FILE_PATH="coverage/tabu_search$visualisation.coverage" NAME="visualisation Coverage Results" MODIFIED="1734167898007" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
+    <SUITE FILE_PATH="coverage/tabu_search$visualisation.coverage" NAME="visualisation Coverage Results" MODIFIED="1734255833763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tabuV2" />
     <SUITE FILE_PATH="coverage/tabu_search$degenerate.coverage" NAME="degenerate Coverage Results" MODIFIED="1732911922643" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$gen.coverage" NAME="gen Coverage Results" MODIFIED="1733406145615" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />
     <SUITE FILE_PATH="coverage/tabu_search$google_solver.coverage" NAME="google_solver Coverage Results" MODIFIED="1733500055939" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/taboo" />

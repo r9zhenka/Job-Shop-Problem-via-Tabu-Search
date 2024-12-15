@@ -45,9 +45,10 @@ def Gantt(job_shop_data, filename = 'Unknown', stats=None, benchmark_makespan = 
         )
 
     plt.tight_layout()
+    plt.savefig(f"statistic/Gantts_charts/{filename}.png")
     plt.show()
 
-import matplotlib.pyplot as plt
+
 
 def Comparison(file_names, benchmark_makespans, tabu_makespan, stats):
     x = range(len(file_names))
@@ -65,14 +66,12 @@ def Comparison(file_names, benchmark_makespans, tabu_makespan, stats):
 
     plt.grid(True, linestyle="--", alpha=0.7)
     plt.legend(fontsize=10)
-    # if stats:
-    #     stats_text = "\n".join([f"{key}: {value}" for key, value in stats.items()])
-    #     ax.text(
-    #         1.05, 1.1, stats_text, transform=ax.transAxes, fontsize=10,
-    #         verticalalignment='bottom', bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.5)
-    #     )
+    plt.gcf().text(0.092, 0.8, "\n".join([f"{key}: {value}" for key, value in stats.items()]), fontsize=10, bbox=dict(boxstyle="round", facecolor="wheat", alpha=0.7))
+
     plt.tight_layout()
     # if flag:
+    plt.savefig("statistic/deviation.png")
     plt.show()
+
 
 
