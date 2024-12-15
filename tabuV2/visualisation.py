@@ -50,7 +50,7 @@ def Gantt(job_shop_data, filename = 'Unknown', stats=None, benchmark_makespan = 
 
 
 
-def Comparison(file_names, benchmark_makespans, tabu_makespan, stats):
+def Comparison(file_names, benchmark_makespans, tabu_makespan, stats, xlabel = "Files_names", ylabel = "Makespan", title = "Comparison of Makespans"):
     x = range(len(file_names))
     plt.figure(figsize=(10, 6))
     plt.plot(x, benchmark_makespans, label="google Makespan", color="red", marker="o", linestyle="--")
@@ -60,9 +60,9 @@ def Comparison(file_names, benchmark_makespans, tabu_makespan, stats):
 
     # Настройки осей
     plt.xticks(x, file_names, rotation=45, fontsize=10)
-    plt.xlabel("Files_names", fontsize=12)
-    plt.ylabel("Makespan", fontsize=12)
-    plt.title("Comparison of Makespans", fontsize=14)
+    plt.xlabel(xlabel, fontsize=12)
+    plt.ylabel(ylabel, fontsize=12)
+    plt.title(label=title, fontsize=14)
 
     plt.grid(True, linestyle="--", alpha=0.7)
     plt.legend(fontsize=10)
