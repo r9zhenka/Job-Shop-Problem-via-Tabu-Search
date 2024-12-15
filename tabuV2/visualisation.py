@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-
+import os
 # диаграмма Гантта
-def Gantt(job_shop_data, filename = 'Unknown', stats=None, benchmark_makespan = None):
+def Gantt(job_shop_data, filename = 'Unknown', directory = None, stats=None, benchmark_makespan = None, show = None, refactor = None):
     """
     Строит диаграмму Гантта для Job Shop Problem.
     """
@@ -45,13 +45,22 @@ def Gantt(job_shop_data, filename = 'Unknown', stats=None, benchmark_makespan = 
         )
 
     plt.tight_layout()
-    plt.savefig(f"statistic/Gantts_charts/{filename}.png")
-    plt.show()
+
+    if directory:
+        directory += "Gantts_charts/"
+
+        if os.path.isdir(directory) == False:
+            os.makedirs(f"{directory}")
+        # if refactor:
+        plt.savefig(f"{directory}{filename}.png")
+    else:
+        plt.savefig(f"statistic/Gantts_charts/{filename}.png")
+    if show:
+        plt.show()
 
 
-
-def Comparison(file_names, benchmark_makespans, tabu_makespan, stats, xlabel = "Files_names", ylabel = "Makespan", title = "Comparison of Makespans"):
-    x = range(len(file_names))
+def Comparison(file_names, benchmark_makespans, tabu_makespan, stats, xlabel = "Files_names", ylabel = "Makespan", title = "Comparison of Makespans", directory = None, show = None):
+    x = [file_name for file_name in file_names]
     plt.figure(figsize=(10, 6))
     plt.plot(x, benchmark_makespans, label="google Makespan", color="red", marker="o", linestyle="--")
 
@@ -70,8 +79,12 @@ def Comparison(file_names, benchmark_makespans, tabu_makespan, stats, xlabel = "
 
     plt.tight_layout()
     # if flag:
-    plt.savefig("statistic/deviation.png")
-    plt.show()
+    if directory:
+        plt.savefig(f"{directory}deviation.png")
+    else:
+        plt.savefig("statistic/deviation.png")
+    if show:
+        plt.show()
 
 
 
