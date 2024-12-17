@@ -60,6 +60,8 @@ class Solution:
         self.criticalPath = None
         self.makespan = None
 
+        self.history = []
+
 
     @classmethod
     def from_list(cls, jobsData : list) -> "Solution":
@@ -270,7 +272,7 @@ class Solution:
         return schedule
 
 
-def TabuSearch(initialSolution : Solution, iterations : int = 100, tabuSetSize : int = 10):
+def TabuSearch(initialSolution : Solution, iterations : int = 100, tabuListSize : int = 10):
     currentSolution = initialSolution
     bestSolution = currentSolution
 
@@ -288,16 +290,18 @@ def TabuSearch(initialSolution : Solution, iterations : int = 100, tabuSetSize :
 
         currentSolution = bestNeighbor
         tabuList.append(bestNeighbor)
-        history.append(bestNeighbor.GetMakespan())
+        # history.append(bestNeighbor.GetMakespan())
+        history.append(bestSolution.GetMakespan())
 
-        if len(tabuList) > tabuSetSize:
+        if len(tabuList) > tabuListSize:
             tabuList.pop(0)
 
         if bestNeighbor.GetMakespan() < bestSolution.GetMakespan():
             bestSolution = bestNeighbor
 
-    print(history)
+    bestSolution.history = history
     return bestSolution
+
 
 if __name__ == "__main__":
     START_TIME = time.time()
