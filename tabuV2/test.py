@@ -27,7 +27,7 @@ if __name__ == "__main__":
                     # iterations = 10000
                     tabuSetSize = 30
                     START_TIME = time.time()
-                    tabu = TabuSearch(Solution.from_list(jobsData), iterations=iterations, tabuSetSize=tabuSetSize)
+                    tabu = TabuSearch(Solution.from_list(jobsData), iterations=iterations, tabuListSize=tabuSetSize)
                     END_TIME = time.time()
                     mk = tabu.GetMakespan()
                     benchmark = GoogleSolve(jobsData)
